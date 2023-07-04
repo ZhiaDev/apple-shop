@@ -18,3 +18,26 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: GR
+      fonts:
+        - asset: assets/fonts/GilroyRegular.ttf
+    - family: GM
+      fonts:
+        - asset: assets/fonts/GilroyMedium.ttf
+    - family: GB
+      fonts:
+        - asset: assets/fonts/GilroyBold.ttf
+    - family: GEB
+      fonts:
+        - asset: assets/fonts/GilroyExtraBold.ttf
+    - family: GH
+      fonts:
+        - asset: assets/fonts/GilroyHeavy.ttf
+    - family: SM
+      fonts:
+        - asset: assets/fonts/ShabnamMedium.ttf
+    - family: SB
+      fonts:
+        - asset: assets/fonts/ShabnamBold.ttf
