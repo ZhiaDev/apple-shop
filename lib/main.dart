@@ -13,8 +13,30 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+        // appBar: AppBar(),
+        body: SafeArea(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 200,
+                // height: MediaQuery.of(context).size.height/5,
+                child: PageView.builder(
+                  itemCount: 3,
+                  controller: PageController(
+                    viewportFraction: 0.8,
+                    initialPage: 1
+                  ),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      height: 200,
+                      color: Colors.amber,
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                    );
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
