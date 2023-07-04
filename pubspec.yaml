@@ -1,15 +1,16 @@
 name: apple_shop
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.0.5 <4.0.0'
+  sdk: ">=3.0.5 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_lints: ^2.0.2
+  flutter_svg: ^2.0.7
   smooth_page_indicator: ^1.1.0
 
 dev_dependencies:
@@ -18,6 +19,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
 
   fonts:
     - family: GR
