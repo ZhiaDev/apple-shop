@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'widgets/banner_slider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'pages/home_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -13,12 +15,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
-      home: const Scaffold(
-        // appBar: AppBar(),
-        body: SafeArea(
-          child: BannerSlider()
-        ),
-      ),
+      localizationsDelegates: const [
+        GlobalCupertinoLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale("fa", "IR")],
+      locale: const Locale("fa", "IR"),
+      home: const HomePage(),
     );
   }
 }
