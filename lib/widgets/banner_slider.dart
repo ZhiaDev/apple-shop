@@ -20,7 +20,10 @@ class BannerSlider extends StatelessWidget {
             controller: controller,
             itemBuilder: (context, index) {
               return Container(
-                color: Colors.amber,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(15)
+                ),
                 margin: const EdgeInsets.symmetric(horizontal: 8),
               );
             },
@@ -36,7 +39,7 @@ class BannerSlider extends StatelessWidget {
               dotHeight: 6,
               expansionFactor: 4,
               dotColor: Kcolor.white,
-              activeDotColor: Kcolor.blueIndicator,
+              activeDotColor: Kcolor.primery,
             ),
           ),
         )
