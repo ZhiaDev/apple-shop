@@ -27,7 +27,6 @@ class ProductListPage extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    const Spacer(),
                     const Text(
                       'پرفروش ترین ها',
                       style: TextStyle(
@@ -36,15 +35,27 @@ class ProductListPage extends StatelessWidget {
                         color: Kcolor.primery,
                       ),
                     ),
-                    const Spacer(),
                     Positioned(
                       left: 10,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 2),
+                      child: GestureDetector(
+                        onTap: () {},
                         child: Ksvg(
-                          path: Assets.icons.apple,
-                          size: 28,
-                          color: Kcolor.primery,
+                          path: Assets.icons.filter,
+                          size: 26,
+                          color: Kcolor.black,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 10,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Ksvg(
+                          path: Assets.icons.arrowRight,
+                          size: 26,
+                          color: Kcolor.black,
                         ),
                       ),
                     ),
