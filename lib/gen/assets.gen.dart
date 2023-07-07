@@ -42,6 +42,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/favorite.svg
   String get favorite => 'assets/icons/favorite.svg';
 
+  /// File path: assets/icons/filter.svg
+  String get filter => 'assets/icons/filter.svg';
+
   /// File path: assets/icons/home.svg
   String get home => 'assets/icons/home.svg';
 
@@ -75,6 +78,7 @@ class $AssetsIconsGen {
         checkoutBold,
         delete,
         favorite,
+        filter,
         home,
         homeBold,
         option,
