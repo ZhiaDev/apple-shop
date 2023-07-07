@@ -51,6 +51,24 @@ class CategoryPage extends StatelessWidget {
                 ),
               ),
             ),
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              sliver: SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) => Container(
+                    decoration: BoxDecoration(
+                      color: Kcolor.grey,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                ),
+              ),
+            )
           ],
         ),
       ),
