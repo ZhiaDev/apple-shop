@@ -26,7 +26,6 @@ class CategoryPage extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
-                    const Spacer(),
                     const Text(
                       'دسته بندی',
                       style: TextStyle(
@@ -35,7 +34,6 @@ class CategoryPage extends StatelessWidget {
                         color: Kcolor.primery,
                       ),
                     ),
-                    const Spacer(),
                     Positioned(
                       left: 10,
                       child: Padding(
