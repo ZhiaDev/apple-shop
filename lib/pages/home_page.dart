@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/categoryitem_list.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
 import '../constants/colors.dart';
@@ -83,7 +84,7 @@ class HomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 32, right: 14),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return const CategoryItemList();
+                    return const CategoryItemChip();
                   },
                 ),
               ),
@@ -198,51 +199,6 @@ class HomePage extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
-  }
-}
-
-class CategoryItemList extends StatelessWidget {
-  const CategoryItemList({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 18),
-      child: Column(
-        children: [
-          Container(
-            height: 56,
-            width: 56,
-            decoration: ShapeDecoration(
-              color: Kcolor.secondary,
-              shadows: const [
-                BoxShadow(
-                  color: Kcolor.secondary,
-                  offset: Offset(0, 15),
-                  blurRadius: 42,
-                  spreadRadius: -10,
-                )
-              ],
-              shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.circular(48),
-              ),
-            ),
-            child: const Icon(
-              Icons.mobile_off_sharp,
-              color: Kcolor.white,
-              size: 26,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'همه',
-            style: TextStyle(fontSize: 13, fontFamily: 'SB'),
-          )
-        ],
       ),
     );
   }
