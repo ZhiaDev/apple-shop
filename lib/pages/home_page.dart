@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/categoryitem_list.dart';
+import '../widgets/categoryitem_chip.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
 import '../constants/colors.dart';
