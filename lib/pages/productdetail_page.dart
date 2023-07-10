@@ -183,6 +183,73 @@ class ProductDetailPage extends StatelessWidget {
                 ),
               ),
             ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 20),
+                    const Text(
+                      'انتخاب رنگ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'SM',
+                        color: Kcolor.black,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Container(
+                          height: 26,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Kcolor.black,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 2),
+                              child: Text(
+                                'مشکی',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'SM',
+                                  color: Kcolor.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          height: 26,
+                          width: 26,
+                          decoration: BoxDecoration(
+                            color: Kcolor.tertiary,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          height: 26,
+                          width: 26,
+                          decoration: BoxDecoration(
+                            color: Kcolor.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: Kcolor.grey,
+                              width: 0.5,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
