@@ -9,4 +9,5 @@ class Kcolor {
   static const Color tertiary = Color(0xFFD02026);
   static const Color grey = Color(0xFF858585);
   static const Color grey2 = Color(0xFFEEEEEE);
+  static const Color yellow = Color(0xFFFFBF00);
 }
