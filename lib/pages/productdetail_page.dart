@@ -245,7 +245,84 @@ class ProductDetailPage extends StatelessWidget {
                           ),
                         ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'انتخاب حافظه داخلی',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontFamily: 'SM',
+                        color: Kcolor.black,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Container(
+                          height: 26,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Kcolor.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: Kcolor.primery,
+                              width: 1.5,
+                            ),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              '۱۲۸',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'SM',
+                                color: Kcolor.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          height: 26,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Kcolor.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Kcolor.grey, width: 0.5),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              '۲۵۶',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'SM',
+                                color: Kcolor.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          height: 26,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            color: Kcolor.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Kcolor.grey, width: 0.5),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              '۵۱۲',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'SM',
+                                color: Kcolor.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                      ],
+                    ),
                   ],
                 ),
               ),
