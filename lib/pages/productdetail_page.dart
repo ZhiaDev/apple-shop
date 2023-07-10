@@ -82,6 +82,14 @@ class ProductDetailPage extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Kcolor.white,
                   borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Kcolor.grey.withOpacity(0.4),
+                      spreadRadius: -5,
+                      blurRadius: 14,
+                      offset: const Offset(0, 7),
+                    )
+                  ],
                 ),
                 child: Stack(
                   alignment: Alignment.topCenter,
@@ -93,13 +101,14 @@ class ProductDetailPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                height: double.infinity,
-                                padding: const EdgeInsets.all(20.0),
-                                child: Image.asset(
-                                  Assets.images.iphone.path,
-                                  // height: 100,
-                                  fit: BoxFit.fitHeight,
+                              Expanded(
+                                child: Container(
+                                  height: double.infinity,
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Image.asset(
+                                    Assets.images.iPhone14ProMax.path,
+                                    fit: BoxFit.fitHeight,
+                                  ),
                                 ),
                               ),
                             ],
@@ -121,11 +130,13 @@ class ProductDetailPage extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: Kcolor.white,
                                   borderRadius: BorderRadius.circular(10),
-                                  border:
-                                      Border.all(color: Kcolor.grey, width: 1),
+                                  border: Border.all(
+                                    color: Kcolor.grey,
+                                    width: 1,
+                                  ),
                                 ),
                                 child: Image.asset(
-                                  Assets.images.iphone.path,
+                                  Assets.images.iPhone14ProMax.path,
                                 ),
                               );
                             },
@@ -171,7 +182,7 @@ class ProductDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

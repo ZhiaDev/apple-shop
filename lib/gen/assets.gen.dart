@@ -92,11 +92,15 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/iPhone_14_Pro_Max.png
+  AssetGenImage get iPhone14ProMax =>
+      const AssetGenImage('assets/images/iPhone_14_Pro_Max.png');
+
   /// File path: assets/images/iphone.png
   AssetGenImage get iphone => const AssetGenImage('assets/images/iphone.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [iphone];
+  List<AssetGenImage> get values => [iPhone14ProMax, iphone];
 }
 
 class Assets {
