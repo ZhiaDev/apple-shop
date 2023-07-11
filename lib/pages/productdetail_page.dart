@@ -68,7 +68,7 @@ class ProductDetailPage extends StatelessWidget {
                   'آیفون SE 2022',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontFamily: 'SB',
                     color: Kcolor.black,
                   ),
@@ -326,7 +326,219 @@ class ProductDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                height: 46,
+                margin: const EdgeInsets.only(top: 20, right: 32, left: 32),
+                decoration: BoxDecoration(
+                  color: Kcolor.white,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: Kcolor.grey, width: 1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      const Text(
+                        'مشخصات فنی:',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'SM',
+                          color: Kcolor.black,
+                        ),
+                      ),
+                      const Spacer(),
+                      const Text(
+                        'مشاهده',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'SM',
+                          color: Kcolor.primery,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Ksvg(
+                        path: Assets.icons.arrowLeft,
+                        size: 20,
+                        color: Kcolor.primery,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                height: 46,
+                margin: const EdgeInsets.only(top: 20, right: 32, left: 32),
+                decoration: BoxDecoration(
+                  color: Kcolor.white,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: Kcolor.grey, width: 1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      const Text(
+                        'توضیحات محصول:',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'SM',
+                          color: Kcolor.black,
+                        ),
+                      ),
+                      const Spacer(),
+                      const Text(
+                        'مشاهده',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'SM',
+                          color: Kcolor.primery,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Ksvg(
+                        path: Assets.icons.arrowLeft,
+                        size: 20,
+                        color: Kcolor.primery,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                height: 46,
+                margin: const EdgeInsets.only(top: 20, right: 32, left: 32),
+                decoration: BoxDecoration(
+                  color: Kcolor.white,
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(color: Kcolor.grey, width: 1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      const Text(
+                        'نظرات کاربران:',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'SM',
+                          color: Kcolor.black,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            height: 26,
+                            width: 26,
+                            decoration: BoxDecoration(
+                              color: Kcolor.secondary,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: Kcolor.white,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 15,
+                            child: Container(
+                              height: 26,
+                              width: 26,
+                              decoration: BoxDecoration(
+                                color: Kcolor.tertiary,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Kcolor.white,
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 30,
+                            child: Container(
+                              height: 26,
+                              width: 26,
+                              decoration: BoxDecoration(
+                                color: Kcolor.primery,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Kcolor.white,
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 45,
+                            child: Container(
+                              height: 26,
+                              width: 26,
+                              decoration: BoxDecoration(
+                                color: Kcolor.yellow,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Kcolor.white,
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            right: 60,
+                            child: Container(
+                              height: 26,
+                              width: 26,
+                              decoration: BoxDecoration(
+                                color: Kcolor.grey,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Kcolor.white,
+                                  width: 1,
+                                ),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  '99+',
+                                  style: TextStyle(
+                                    color: Kcolor.white,
+                                    fontFamily: 'SB',
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      const Text(
+                        'مشاهده',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'SM',
+                          color: Kcolor.primery,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Ksvg(
+                        path: Assets.icons.arrowLeft,
+                        size: 20,
+                        color: Kcolor.primery,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 100))
           ],
         ),
       ),
