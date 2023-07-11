@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:apple_shop/constants/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,10 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Kcolor.background,
+      // bottomNavigationBar: Container(
+      //   color: Colors.amber,
+      //   height: kToolbarHeight + 48,
+      // ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -538,10 +544,77 @@ class ProductDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SliverPadding(padding: EdgeInsets.only(bottom: 100))
+            const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
+            const SliverToBoxAdapter(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [AddToCheckoutButton()],
+              ),
+            ),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
           ],
         ),
       ),
+    );
+  }
+}
+
+class AddToCheckoutButton extends StatelessWidget {
+  const AddToCheckoutButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 47,
+          width: 140,
+          decoration: BoxDecoration(
+            color: Kcolor.primery,
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
+              child: Container(
+                height: 53,
+                width: 160,
+                padding: const EdgeInsets.all(4.0),
+                decoration: BoxDecoration(
+                  // color: Colors.transparent,
+                  color: Kcolor.primery.withOpacity(0.2),
+                  border: Border.all(color: Kcolor.white.withOpacity(0.8)),
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: AssetImage(Assets.images.noise.path),
+                    opacity: 0.1,
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    'افزودن به سبد خرید',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16,
+                      letterSpacing: -0.1,
+                      fontFamily: 'SB',
+                      color: Kcolor.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
