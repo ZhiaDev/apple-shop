@@ -13,10 +13,24 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Kcolor.background,
-      // bottomNavigationBar: Container(
-      //   color: Colors.amber,
-      //   height: kToolbarHeight + 48,
-      // ),
+      bottomNavigationBar: Container(
+        height: 115,
+        decoration: const BoxDecoration(
+            border: Border(top: BorderSide(color: Kcolor.white, width: 1))),
+        child: const Column(
+          children: [
+            SizedBox(height: 14),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AddToCheckoutButton(),
+                PriceTagButton(),
+              ],
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
@@ -544,15 +558,7 @@ class ProductDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SliverPadding(padding: EdgeInsets.only(bottom: 20)),
-            const SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [AddToCheckoutButton()],
-              ),
-            ),
-            const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
           ],
         ),
       ),
@@ -608,6 +614,112 @@ class AddToCheckoutButton extends StatelessWidget {
                       fontFamily: 'SB',
                       color: Kcolor.white,
                     ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PriceTagButton extends StatelessWidget {
+  const PriceTagButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topCenter,
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 47,
+          width: 140,
+          decoration: BoxDecoration(
+            color: Kcolor.secondary,
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        Positioned(
+          top: 5,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 28, sigmaY: 28),
+              child: Container(
+                height: 53,
+                width: 160,
+                padding: const EdgeInsets.all(4.0),
+                decoration: BoxDecoration(
+                  // color: Colors.transparent,
+                  color: Kcolor.secondary.withOpacity(0.4),
+                  border: Border.all(color: Kcolor.white.withOpacity(0.8)),
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    image: AssetImage(Assets.images.noise.path),
+                    opacity: 0.1,
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Kcolor.tertiary,
+                          borderRadius: BorderRadius.circular(365),
+                        ),
+                        padding: const EdgeInsets.only(
+                          right: 6,
+                          left: 6,
+                          top: 1,
+                        ),
+                        child: const Text(
+                          '%3',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'SB',
+                            color: Kcolor.white,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            '۴۶٬۰۰۰٬۰۰۰',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontFamily: 'SM',
+                              color: Kcolor.white,
+                              decorationColor: Kcolor.white,
+                              decoration: TextDecoration.lineThrough,
+                            ),
+                          ),
+                          Text(
+                            '۴۵٬۳۵۰٬۰۰۰',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: 'SB',
+                              color: Kcolor.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(width: 4),
+                      const Text(
+                        'تومان',
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontFamily: 'SB',
+                          color: Kcolor.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
