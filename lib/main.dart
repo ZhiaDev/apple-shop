@@ -8,7 +8,7 @@ import 'pages/home_page.dart';
 import 'constants/colors.dart';
 import 'pages/profile_page.dart';
 import 'pages/category_page.dart';
-import 'pages/productlist_page.dart';
+import 'pages/checkout_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -171,8 +171,8 @@ class _MainAppState extends State<MainApp> {
     return [
       const HomePage(),
       const CategoryPage(),
-      const ProductListPage(),
-      const ProfilePage()
+      const CheckoutPage(),
+      const ProfilePage(),
     ];
   }
 }
