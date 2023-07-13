@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:apple_shop/constants/colors.dart';
 import 'package:flutter/material.dart';
 
+import '/constants/colors.dart';
 import '../gen/assets.gen.dart';
 import '../utility/svg.dart';
 
