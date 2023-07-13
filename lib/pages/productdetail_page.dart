@@ -16,7 +16,10 @@ class ProductDetailPage extends StatelessWidget {
       bottomNavigationBar: Container(
         height: 115,
         decoration: const BoxDecoration(
-            border: Border(top: BorderSide(color: Kcolor.white, width: 1))),
+          border: Border(
+            top: BorderSide(color: Kcolor.white, width: 1),
+          ),
+        ),
         child: const Column(
           children: [
             SizedBox(height: 14),
@@ -145,8 +148,9 @@ class ProductDetailPage extends StatelessWidget {
                                 height: 70,
                                 width: 70,
                                 padding: const EdgeInsets.all(6.0),
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Kcolor.white,
                                   borderRadius: BorderRadius.circular(10),
@@ -172,9 +176,9 @@ class ProductDetailPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Ksvg(
-                            path: Assets.icons.favorite,
                             size: 22,
                             color: Kcolor.primery,
+                            path: Assets.icons.favorite,
                           ),
                         ),
                         Padding(
@@ -190,9 +194,9 @@ class ProductDetailPage extends StatelessWidget {
                                 ),
                               ),
                               Ksvg(
-                                path: Assets.icons.star,
                                 size: 22,
                                 color: Kcolor.yellow,
+                                path: Assets.icons.star,
                               ),
                             ],
                           ),
@@ -259,8 +263,8 @@ class ProductDetailPage extends StatelessWidget {
                             color: Kcolor.white,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: Kcolor.grey,
                               width: 0.5,
+                              color: Kcolor.grey,
                             ),
                           ),
                         ),
@@ -307,7 +311,10 @@ class ProductDetailPage extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Kcolor.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Kcolor.grey, width: 0.5),
+                            border: Border.all(
+                              color: Kcolor.grey,
+                              width: 0.5,
+                            ),
                           ),
                           child: const Center(
                             child: Text(
@@ -327,7 +334,10 @@ class ProductDetailPage extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Kcolor.white,
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Kcolor.grey, width: 0.5),
+                            border: Border.all(
+                              color: Kcolor.grey,
+                              width: 0.5,
+                            ),
                           ),
                           child: const Center(
                             child: Text(
@@ -379,9 +389,9 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Ksvg(
-                        path: Assets.icons.arrowLeft,
                         size: 20,
                         color: Kcolor.primery,
+                        path: Assets.icons.arrowLeft,
                       ),
                     ],
                   ),
@@ -391,11 +401,11 @@ class ProductDetailPage extends StatelessWidget {
             SliverToBoxAdapter(
               child: Container(
                 height: 46,
-                margin: const EdgeInsets.only(top: 20, right: 32, left: 32),
+                margin: const EdgeInsets.fromLTRB(32, 20, 32, 0),
                 decoration: BoxDecoration(
                   color: Kcolor.white,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: Kcolor.grey, width: 1),
+                  border: Border.all(color: Kcolor.grey),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -420,9 +430,9 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Ksvg(
-                        path: Assets.icons.arrowLeft,
                         size: 20,
                         color: Kcolor.primery,
+                        path: Assets.icons.arrowLeft,
                       ),
                     ],
                   ),
@@ -432,11 +442,11 @@ class ProductDetailPage extends StatelessWidget {
             SliverToBoxAdapter(
               child: Container(
                 height: 46,
-                margin: const EdgeInsets.only(top: 20, right: 32, left: 32),
+                margin: const EdgeInsets.fromLTRB(32, 20, 32, 0),
                 decoration: BoxDecoration(
                   color: Kcolor.white,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: Kcolor.grey, width: 1),
+                  border: Border.all(color: Kcolor.grey),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -455,28 +465,28 @@ class ProductDetailPage extends StatelessWidget {
                         clipBehavior: Clip.none,
                         children: [
                           Container(
-                            height: 26,
                             width: 26,
+                            height: 26,
                             decoration: BoxDecoration(
                               color: Kcolor.secondary,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: Kcolor.white,
                                 width: 1,
+                                color: Kcolor.white,
                               ),
                             ),
                           ),
                           Positioned(
                             right: 15,
                             child: Container(
-                              height: 26,
                               width: 26,
+                              height: 26,
                               decoration: BoxDecoration(
                                 color: Kcolor.tertiary,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: Kcolor.white,
                                   width: 1,
+                                  color: Kcolor.white,
                                 ),
                               ),
                             ),
@@ -484,14 +494,14 @@ class ProductDetailPage extends StatelessWidget {
                           Positioned(
                             right: 30,
                             child: Container(
-                              height: 26,
                               width: 26,
+                              height: 26,
                               decoration: BoxDecoration(
                                 color: Kcolor.primery,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: Kcolor.white,
                                   width: 1,
+                                  color: Kcolor.white,
                                 ),
                               ),
                             ),
@@ -505,8 +515,8 @@ class ProductDetailPage extends StatelessWidget {
                                 color: Kcolor.yellow,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: Kcolor.white,
                                   width: 1,
+                                  color: Kcolor.white,
                                 ),
                               ),
                             ),
@@ -520,8 +530,8 @@ class ProductDetailPage extends StatelessWidget {
                                 color: Kcolor.grey,
                                 borderRadius: BorderRadius.circular(8),
                                 border: Border.all(
-                                  color: Kcolor.white,
                                   width: 1,
+                                  color: Kcolor.white,
                                 ),
                               ),
                               child: const Center(
@@ -549,9 +559,9 @@ class ProductDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Ksvg(
-                        path: Assets.icons.arrowLeft,
                         size: 20,
                         color: Kcolor.primery,
+                        path: Assets.icons.arrowLeft,
                       ),
                     ],
                   ),
@@ -576,8 +586,8 @@ class AddToCheckoutButton extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 47,
           width: 140,
+          height: 47,
           decoration: BoxDecoration(
             color: Kcolor.primery,
             borderRadius: BorderRadius.circular(15),
@@ -594,7 +604,6 @@ class AddToCheckoutButton extends StatelessWidget {
                 width: 160,
                 padding: const EdgeInsets.all(4.0),
                 decoration: BoxDecoration(
-                  // color: Colors.transparent,
                   color: Kcolor.primery.withOpacity(0.2),
                   border: Border.all(color: Kcolor.white.withOpacity(0.8)),
                   borderRadius: BorderRadius.circular(15),
@@ -610,8 +619,8 @@ class AddToCheckoutButton extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontSize: 16,
-                      letterSpacing: -0.1,
                       fontFamily: 'SB',
+                      letterSpacing: -0.1,
                       color: Kcolor.white,
                     ),
                   ),
@@ -635,8 +644,8 @@ class PriceTagButton extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 47,
           width: 140,
+          height: 47,
           decoration: BoxDecoration(
             color: Kcolor.secondary,
             borderRadius: BorderRadius.circular(15),
@@ -671,11 +680,7 @@ class PriceTagButton extends StatelessWidget {
                           color: Kcolor.tertiary,
                           borderRadius: BorderRadius.circular(365),
                         ),
-                        padding: const EdgeInsets.only(
-                          right: 6,
-                          left: 6,
-                          top: 1,
-                        ),
+                        padding: const EdgeInsets.fromLTRB(6, 1, 6, 0),
                         child: const Text(
                           '%3',
                           style: TextStyle(
@@ -687,8 +692,8 @@ class PriceTagButton extends StatelessWidget {
                       ),
                       const Spacer(),
                       const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             '۴۶٬۰۰۰٬۰۰۰',
