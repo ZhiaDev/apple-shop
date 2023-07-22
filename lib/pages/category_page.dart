@@ -102,8 +102,12 @@ class CategoryGridList extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 32),
       sliver: SliverGrid(
         delegate: SliverChildBuilderDelegate(
-            childCount: list?.length ?? 0,
-            (context, index) => CachedImage(imageUrl: list?[index].thumbnail)),
+          childCount: list?.length ?? 0,
+          (context, index) => CachedImage(
+            imageUrl: list?[index].thumbnail,
+            radius: 15,
+          ),
+        ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 20,
