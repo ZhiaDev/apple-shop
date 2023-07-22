@@ -1,3 +1,5 @@
+import 'package:apple_shop/data/datasource/banner_datasource.dart';
+import 'package:apple_shop/data/repository/banner_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +29,9 @@ Future<void> getItInit() async {
   locator.registerFactory<ICategoryDataSource>(
     () => CategoryRemoteDataSource(),
   );
+  locator.registerFactory<IBannerDataSource>(
+    () => BannerRemoteDataSource(),
+  );
 
   // Repositories
   locator.registerFactory<IAuthenticationRepositiry>(
@@ -34,5 +39,8 @@ Future<void> getItInit() async {
   );
   locator.registerFactory<ICategoryRepository>(
     () => CategoryRepository(),
+  );
+  locator.registerFactory<IBannerRepository>(
+    () => BannerRepository(),
   );
 }
