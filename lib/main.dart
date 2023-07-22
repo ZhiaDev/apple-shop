@@ -1,7 +1,10 @@
 import 'dart:ui';
+import 'package:apple_shop/bloc/category/category_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'di/di.dart';
 import 'utility/svg.dart';
 import 'gen/assets.gen.dart';
 import 'pages/home_page.dart';
@@ -10,7 +13,9 @@ import 'pages/profile_page.dart';
 import 'pages/category_page.dart';
 import 'pages/checkout_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await getItInit();
   runApp(const MainApp());
 }
 
@@ -27,19 +32,24 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true, fontFamily: 'SM'),
+      theme: ThemeData(
+        fontFamily: 'SM',
+        useMaterial3: true,
+        colorSchemeSeed: Kcolor.primery,
+      ),
       localizationsDelegates: const [
-        GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [Locale("fa", "IR")],
       locale: const Locale("fa", "IR"),
+      supportedLocales: const [Locale("fa", "IR")],
       home: Scaffold(
         body: IndexedStack(
           index: selectedBottomNavigationIndex,
           children: getPages(),
         ),
+        // body: BlocProvider(create: (context) => AuthBloc(), child: LoginPage()),
         bottomNavigationBar: ClipRRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
@@ -170,7 +180,10 @@ class _MainAppState extends State<MainApp> {
   List<Widget> getPages() {
     return [
       const HomePage(),
-      const CategoryPage(),
+      BlocProvider(
+        create: (context) => CategoryBloc(),
+        child: const CategoryPage(),
+      ),
       const CheckoutPage(),
       const ProfilePage(),
     ];
