@@ -1,14 +1,18 @@
+import 'package:apple_shop/data/model/banner.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '/widgets/cached_image.dart';
 import '../constants/colors.dart';
 
+// ignore: must_be_immutable
 class BannerSlider extends StatelessWidget {
-  const BannerSlider({super.key});
+  BannerSlider({super.key, required this.bannerList});
+  List<CampaignBanner> bannerList;
 
   @override
   Widget build(BuildContext context) {
-    var controller = PageController(viewportFraction: 0.8, initialPage: 1);
+    var controller = PageController(viewportFraction: 0.86, initialPage: 1);
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -16,15 +20,15 @@ class BannerSlider extends StatelessWidget {
         SizedBox(
           height: 170,
           child: PageView.builder(
-            itemCount: 3,
+            itemCount: bannerList.length,
             controller: controller,
             itemBuilder: (context, index) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(15)
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: CachedImage(
+                  imageUrl: bannerList[index].thumbnail,
+                  radius: 15,
                 ),
-                margin: const EdgeInsets.symmetric(horizontal: 8),
               );
             },
           ),

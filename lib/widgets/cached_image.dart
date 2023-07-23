@@ -5,13 +5,14 @@ import '../constants/colors.dart';
 
 // ignore: must_be_immutable
 class CachedImage extends StatelessWidget {
-  CachedImage({super.key, required this.imageUrl});
+  CachedImage({super.key, required this.imageUrl, required this.radius});
   String? imageUrl;
+  double radius;
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(15),
+      borderRadius: BorderRadius.circular(radius),
       child: CachedNetworkImage(
         fit: BoxFit.cover,
         errorWidget: (context, url, error) => Container(

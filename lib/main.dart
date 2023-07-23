@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:apple_shop/bloc/category/category_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,6 +11,8 @@ import 'constants/colors.dart';
 import 'pages/profile_page.dart';
 import 'pages/category_page.dart';
 import 'pages/checkout_page.dart';
+import '/bloc/home/home_bloc.dart';
+import '/bloc/category/category_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -179,7 +180,10 @@ class _MainAppState extends State<MainApp> {
 
   List<Widget> getPages() {
     return [
-      const HomePage(),
+      BlocProvider(
+        create: (context) => HomeBloc(),
+        child: const HomePage(),
+      ),
       BlocProvider(
         create: (context) => CategoryBloc(),
         child: const CategoryPage(),

@@ -6,14 +6,14 @@ import '/utility/api_exeption.dart';
 import '/data/datasource/banner_datasource.dart';
 
 abstract class IBannerRepository {
-  Future<Either<String, List<Banner>>> getBanners();
+  Future<Either<String, List<CampaignBanner>>> getBanners();
 }
 
 class BannerRepository extends IBannerRepository {
   final IBannerDataSource _datasource = locator.get();
 
   @override
-  Future<Either<String, List<Banner>>> getBanners() async {
+  Future<Either<String, List<CampaignBanner>>> getBanners() async {
     try {
       var response = await _datasource.getBanners();
       return right(response);

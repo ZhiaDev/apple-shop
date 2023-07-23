@@ -1,18 +1,18 @@
-class Banner {
+class CampaignBanner {
   String? id;
   String? collectionId;
   String? categoryId;
   String? thumbnail;
 
-  Banner({
+  CampaignBanner({
     required this.id,
     required this.collectionId,
     required this.categoryId,
     required this.thumbnail,
   });
 
-  factory Banner.fromMapJson(Map<String, dynamic> jsonObject) {
-    return Banner(
+  factory CampaignBanner.fromMapJson(Map<String, dynamic> jsonObject) {
+    return CampaignBanner(
       id: jsonObject['id'],
       collectionId: jsonObject['collectionId'],
       categoryId: jsonObject['categoryId'],
