@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '/data/model/product.dart';
+import '/data/model/category.dart';
+import '/data/model/banner.dart';
+import '/bloc/home/home_bloc.dart';
+import '/bloc/home/home_event.dart';
 import '../bloc/home/home_state.dart';
 import '../widgets/categoryitem_chip.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
-import '/bloc/home/home_bloc.dart';
-import '/bloc/home/home_event.dart';
-import '/data/model/banner.dart';
-import '/data/model/category.dart';
+import '../widgets/shimmer_loading.dart';
 import '../constants/colors.dart';
 import '../gen/assets.gen.dart';
 import '../utility/svg.dart';
@@ -37,38 +39,67 @@ class _HomePageState extends State<HomePage> {
           builder: (context, state) {
             return CustomScrollView(
               slivers: [
-                const _GetSearchBox(),
-                if (state is HomeLoadingState) ...[
-                  const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()),
-                  )
-                ],
-                if (state is HomeRequestSuccessState) ...[
-                  state.bannerList.fold(
-                    (exceptionMessage) {
-                      return SliverToBoxAdapter(child: Text(exceptionMessage));
-                    },
-                    (bannerList) {
-                      return _GetBanners(campaignBanner: bannerList);
-                    },
-                  )
-                ],
-                const _GetCategoryTitle(),
-                if (state is HomeRequestSuccessState) ...[
-                  state.categoryList.fold(
-                    (exceptionMessage) {
-                      return SliverToBoxAdapter(child: Text(exceptionMessage));
-                    },
-                    (categoryList) {
-                      return _GetCategoryList(categoryList: categoryList);
-                    },
-                  )
-                ],
-                const SliverToBoxAdapter(child: SizedBox(height: 12)),
-                const _GetBestSellerTitle(),
-                const _GetBestSellerList(),
-                const _GetMostViewTitle(),
-                const _GetMostViewList()
+                // Banner
+                if (state is HomeLoadingState) ...{
+                  const HomeShimmerLoading()
+                } else ...{
+                  // Search Box
+                  const _GetSearchBox(),
+                  if (state is HomeRequestSuccessState) ...[
+                    state.bannerList.fold(
+                      (exceptionMessage) {
+                        return SliverToBoxAdapter(
+                            child: Text(exceptionMessage));
+                      },
+                      (bannerList) {
+                        return _GetBanners(campaignBanner: bannerList);
+                      },
+                    )
+                  ],
+
+                  // Category list
+                  const _GetCategoryTitle(),
+                  if (state is HomeRequestSuccessState) ...[
+                    state.categoryList.fold(
+                      (exceptionMessage) {
+                        return SliverToBoxAdapter(
+                            child: Text(exceptionMessage));
+                      },
+                      (categoryList) {
+                        return _GetCategoryList(categoryList: categoryList);
+                      },
+                    )
+                  ],
+                  const SliverToBoxAdapter(child: SizedBox(height: 12)),
+
+                  // Best Seller Products
+                  const _GetBestSellerTitle(),
+                  if (state is HomeRequestSuccessState) ...[
+                    state.bestSellerProductList.fold(
+                      (exceptionMessage) {
+                        return SliverToBoxAdapter(
+                            child: Text(exceptionMessage));
+                      },
+                      (productList) {
+                        return _GetBestSellerList(productList: productList);
+                      },
+                    )
+                  ],
+
+                  // Hotest Products
+                  const _GetMostViewTitle(),
+                  if (state is HomeRequestSuccessState) ...[
+                    state.hotestProductList.fold(
+                      (exceptionMessage) {
+                        return SliverToBoxAdapter(
+                            child: Text(exceptionMessage));
+                      },
+                      (productList) {
+                        return _GetMostViewList(productList: productList);
+                      },
+                    )
+                  ],
+                },
               ],
             );
           },
@@ -79,7 +110,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _GetMostViewList extends StatelessWidget {
-  const _GetMostViewList();
+  final List<Product> productList;
+  const _GetMostViewList({required this.productList});
 
   @override
   Widget build(BuildContext context) {
@@ -87,14 +119,14 @@ class _GetMostViewList extends StatelessWidget {
       child: SizedBox(
         height: 260,
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: productList.length,
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.only(left: 32, right: 14),
           itemBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.only(right: 18),
+            return Padding(
+              padding: const EdgeInsets.only(right: 18),
               child: Column(
-                children: [ProductItem()],
+                children: [ProductItem(product: productList[index])],
               ),
             );
           },
@@ -149,7 +181,8 @@ class _GetMostViewTitle extends StatelessWidget {
 }
 
 class _GetBestSellerList extends StatelessWidget {
-  const _GetBestSellerList();
+  final List<Product> productList;
+  const _GetBestSellerList({required this.productList});
 
   @override
   Widget build(BuildContext context) {
@@ -157,13 +190,15 @@ class _GetBestSellerList extends StatelessWidget {
       child: SizedBox(
         height: 260,
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: productList.length,
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.only(left: 32, right: 14),
           itemBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.only(right: 18),
-              child: Column(children: [ProductItem()]),
+            return Padding(
+              padding: const EdgeInsets.only(right: 18),
+              child: Column(
+                children: [ProductItem(product: productList[index])],
+              ),
             );
           },
         ),
