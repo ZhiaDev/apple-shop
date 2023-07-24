@@ -1,13 +1,15 @@
-import 'package:apple_shop/data/datasource/banner_datasource.dart';
-import 'package:apple_shop/data/repository/banner_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '/data/datasource/authentication_datasource.dart';
+import '/data/datasource/product_datasource.dart';
+import '/data/repository/product_repository.dart';
+import '/data/datasource/banner_datasource.dart';
+import '/data/repository/banner_repository.dart';
 import '/data/datasource/category_datasource.dart';
-import '/data/repository/authentication_repository.dart';
 import '/data/repository/category_repository.dart';
+import '/data/datasource/authentication_datasource.dart';
+import '/data/repository/authentication_repository.dart';
 
 var locator = GetIt.instance;
 Future<void> getItInit() async {
@@ -32,6 +34,9 @@ Future<void> getItInit() async {
   locator.registerFactory<IBannerDataSource>(
     () => BannerRemoteDataSource(),
   );
+  locator.registerFactory<IProductDataSource>(
+    () => ProductRemoteDataSource(),
+  );
 
   // Repositories
   locator.registerFactory<IAuthenticationRepositiry>(
@@ -42,5 +47,8 @@ Future<void> getItInit() async {
   );
   locator.registerFactory<IBannerRepository>(
     () => BannerRepository(),
+  );
+  locator.registerFactory<IProductRepository>(
+    () => ProductRepository(),
   );
 }
