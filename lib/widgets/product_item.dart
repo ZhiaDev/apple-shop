@@ -1,7 +1,7 @@
-import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
+import '/widgets/cached_image.dart';
 import '/data/model/product.dart';
 import '../constants/colors.dart';
 import '../gen/assets.gen.dart';

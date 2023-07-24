@@ -1,8 +1,8 @@
-import 'package:apple_shop/data/model/banner.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '/widgets/cached_image.dart';
+import '/data/model/banner.dart';
 import '../constants/colors.dart';
 
 class BannerSlider extends StatelessWidget {
