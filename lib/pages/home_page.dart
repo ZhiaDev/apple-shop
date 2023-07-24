@@ -1,6 +1,3 @@
-import 'package:apple_shop/bloc/home/home_bloc.dart';
-import 'package:apple_shop/bloc/home/home_event.dart';
-import 'package:apple_shop/data/model/banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,6 +5,10 @@ import '../bloc/home/home_state.dart';
 import '../widgets/categoryitem_chip.dart';
 import '../widgets/banner_slider.dart';
 import '../widgets/product_item.dart';
+import '/bloc/home/home_bloc.dart';
+import '/bloc/home/home_event.dart';
+import '/data/model/banner.dart';
+import '/data/model/category.dart';
 import '../constants/colors.dart';
 import '../gen/assets.gen.dart';
 import '../utility/svg.dart';
@@ -39,11 +40,7 @@ class _HomePageState extends State<HomePage> {
                 const _GetSearchBox(),
                 if (state is HomeLoadingState) ...[
                   const SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        CircularProgressIndicator(),
-                      ],
-                    ),
+                    child: Center(child: CircularProgressIndicator()),
                   )
                 ],
                 if (state is HomeRequestSuccessState) ...[
@@ -57,7 +54,16 @@ class _HomePageState extends State<HomePage> {
                   )
                 ],
                 const _GetCategoryTitle(),
-                const _GetCategoryList(),
+                if (state is HomeRequestSuccessState) ...[
+                  state.categoryList.fold(
+                    (exceptionMessage) {
+                      return SliverToBoxAdapter(child: Text(exceptionMessage));
+                    },
+                    (categoryList) {
+                      return _GetCategoryList(categoryList: categoryList);
+                    },
+                  )
+                ],
                 const SliverToBoxAdapter(child: SizedBox(height: 12)),
                 const _GetBestSellerTitle(),
                 const _GetBestSellerList(),
@@ -73,9 +79,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _GetMostViewList extends StatelessWidget {
-  const _GetMostViewList({
-    super.key,
-  });
+  const _GetMostViewList();
 
   @override
   Widget build(BuildContext context) {
@@ -101,15 +105,13 @@ class _GetMostViewList extends StatelessWidget {
 }
 
 class _GetMostViewTitle extends StatelessWidget {
-  const _GetMostViewTitle({
-    super.key,
-  });
+  const _GetMostViewTitle();
 
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(32, 0, 32, 20),
+        padding: const EdgeInsets.fromLTRB(32, 0, 32, 12),
         child: Row(
           children: [
             const Text(
@@ -147,9 +149,7 @@ class _GetMostViewTitle extends StatelessWidget {
 }
 
 class _GetBestSellerList extends StatelessWidget {
-  const _GetBestSellerList({
-    super.key,
-  });
+  const _GetBestSellerList();
 
   @override
   Widget build(BuildContext context) {
@@ -173,15 +173,13 @@ class _GetBestSellerList extends StatelessWidget {
 }
 
 class _GetBestSellerTitle extends StatelessWidget {
-  const _GetBestSellerTitle({
-    super.key,
-  });
+  const _GetBestSellerTitle();
 
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.only(right: 32, left: 32, bottom: 20),
+        padding: const EdgeInsets.fromLTRB(32, 0, 32, 12),
         child: Row(
           children: [
             const Text(
@@ -219,9 +217,9 @@ class _GetBestSellerTitle extends StatelessWidget {
 }
 
 class _GetCategoryList extends StatelessWidget {
-  const _GetCategoryList({
-    super.key,
-  });
+  final List<Category> categoryList;
+
+  const _GetCategoryList({required this.categoryList});
 
   @override
   Widget build(BuildContext context) {
@@ -229,11 +227,11 @@ class _GetCategoryList extends StatelessWidget {
       child: SizedBox(
         height: 100,
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: categoryList.length,
           padding: const EdgeInsets.only(left: 32, right: 14),
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) {
-            return const CategoryItemChip();
+            return CategoryItemChip(category: categoryList[index]);
           },
         ),
       ),
@@ -242,15 +240,13 @@ class _GetCategoryList extends StatelessWidget {
 }
 
 class _GetCategoryTitle extends StatelessWidget {
-  const _GetCategoryTitle({
-    super.key,
-  });
+  const _GetCategoryTitle();
 
   @override
   Widget build(BuildContext context) {
     return const SliverToBoxAdapter(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(32, 32, 32, 20),
+        padding: EdgeInsets.fromLTRB(32, 32, 32, 12),
         child: Row(
           children: [
             Text(
@@ -269,10 +265,9 @@ class _GetCategoryTitle extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class _GetBanners extends StatelessWidget {
-  List<CampaignBanner> campaignBanner;
-  _GetBanners({required this.campaignBanner});
+  final List<CampaignBanner> campaignBanner;
+  const _GetBanners({required this.campaignBanner});
 
   @override
   Widget build(BuildContext context) {

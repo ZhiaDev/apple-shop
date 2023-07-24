@@ -22,7 +22,7 @@ class CachedImage extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              'خطا در بارگذاری تصاویر!',
+              'خطا!',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.error,
                 fontSize: 12,
@@ -32,12 +32,12 @@ class CachedImage extends StatelessWidget {
         ),
         placeholder: (context, url) => Container(
           decoration: BoxDecoration(
-            color: Kcolor.grey.withOpacity(0.8),
+            color: Kcolor.white,
             borderRadius: BorderRadius.circular(15),
           ),
           child: const Center(
             child: Text(
-              'در حال بارگذاری تصاویر...',
+              'بارگذاری...',
               style: TextStyle(color: Kcolor.black, fontSize: 12),
             ),
           ),
