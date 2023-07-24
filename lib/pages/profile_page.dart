@@ -1,7 +1,6 @@
-import 'package:apple_shop/constants/colors.dart';
-import 'package:apple_shop/widgets/categoryitem_chip.dart';
 import 'package:flutter/material.dart';
 
+import '/constants/colors.dart';
 import '../gen/assets.gen.dart';
 import '../utility/svg.dart';
 
@@ -72,16 +71,16 @@ class ProfilePage extends StatelessWidget {
                 runSpacing: 18,
                 spacing: 14,
                 children: [
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
-                  CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
+                  // CategoryItemChip(),
                 ],
               ),
             ),
