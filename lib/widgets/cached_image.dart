@@ -35,12 +35,6 @@ class CachedImage extends StatelessWidget {
             color: Kcolor.white,
             borderRadius: BorderRadius.circular(15),
           ),
-          child: const Center(
-            child: Text(
-              'بارگذاری...',
-              style: TextStyle(color: Kcolor.black, fontSize: 12),
-            ),
-          ),
         ),
         imageUrl: imageUrl ??
             'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Empty_set_symbol.svg/640px-Empty_set_symbol.svg.png',

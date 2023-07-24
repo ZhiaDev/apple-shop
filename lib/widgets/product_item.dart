@@ -1,13 +1,15 @@
+import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
+import '/data/model/product.dart';
 import '../constants/colors.dart';
 import '../gen/assets.gen.dart';
 import '../utility/svg.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({
-    super.key,
-  });
+  final Product product;
+  const ProductItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,9 @@ class ProductItem extends StatelessWidget {
                 const SizedBox(width: 170),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Image.asset(
-                    Assets.images.iphone.path,
+                  child: SizedBox(
                     height: 100,
+                    child: CachedImage(imageUrl: product.thumbnail, radius: 0),
                   ),
                 ),
                 Positioned(
@@ -56,9 +58,9 @@ class ProductItem extends StatelessWidget {
                       left: 6,
                       top: 1,
                     ),
-                    child: const Text(
-                      '%3',
-                      style: TextStyle(
+                    child: Text(
+                      '%${(((product.price! - product.discountPrice!) / product.price!) * 100).round()}',
+                      style: const TextStyle(
                         fontSize: 12,
                         fontFamily: 'SB',
                         color: Kcolor.white,
@@ -70,11 +72,31 @@ class ProductItem extends StatelessWidget {
             ),
           ),
           const Spacer(),
+          // I do this temporarily
+          // because I don't have access to the backend right now to change these names
           Container(
-            padding: const EdgeInsets.only(right: 10),
-            child: const Text(
-              'آیفون ۱۳ پرو مکس',
-              style: TextStyle(fontSize: 14, fontFamily: 'SM'),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(
+              product.name!
+                  .replaceAll(
+                      'گوشی موبایل اپل مدل iphone 14 Pro', 'آیفون 14 پرو')
+                  .replaceAll('گوشی موبایل اپل مدل iPhone 13 Pro Max A2644',
+                      'آیفون 13 پرو مکس')
+                  .replaceAll('اپل مدل AirPods Max', 'هدفون AirPods Max')
+                  .replaceAll('AirPods 3  هدفون', 'ایرپاد مدل 3')
+                  .replaceAll('2021 MacBook MKGR3 M1 Pro', 'مک‌بوک 2021 M1 Pro')
+                  .replaceAll('MacBook Air-A M2 2022', 'مک‌بوک ایر 2022 M2')
+                  .replaceAll('Ultra 49 mm اپل واچ', 'اپل واچ اولترا 49mm')
+                  .replaceAll('8 Aluminum 41mm ساعت هوشمند', 'اپل واچ 49mm 8')
+                  .replaceAll('iMac Pro 2017 آی مک', 'آی مک پرو 2017')
+                  .replaceAll('iMac-A 2021 آی مک', 'آی مک 2021 M1')
+                  .replaceAll('iPad Mini 6th آی‌پد', 'آیپد مینی نسل 6')
+                  .replaceAll('iPad Pro 12.9 آی‌پد', 'آیپد پرو 12.9 اینچ')
+                  .replaceAll('Pencil 2nd قلم', 'قلم اپل نسل 2')
+                  .replaceAll('شارژر ۲۰ وات', 'شارژر 20 وات اپل'),
+              maxLines: 1,
+              textAlign: TextAlign.right,
+              style: const TextStyle(fontSize: 14, fontFamily: 'SM'),
             ),
           ),
           const Spacer(),
@@ -105,13 +127,13 @@ class ProductItem extends StatelessWidget {
                     color: Kcolor.white,
                   ),
                   const Spacer(),
-                  const Column(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        '۴۶٬۰۰۰٬۰۰۰',
-                        style: TextStyle(
+                        product.price.toString().seRagham(),
+                        style: const TextStyle(
                           fontSize: 12,
                           fontFamily: 'SM',
                           color: Kcolor.grey2,
@@ -120,8 +142,8 @@ class ProductItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '۴۵٬۳۵۰٬۰۰۰',
-                        style: TextStyle(
+                        product.discountPrice.toString().seRagham(),
+                        style: const TextStyle(
                           fontSize: 14,
                           fontFamily: 'SM',
                           color: Kcolor.white,

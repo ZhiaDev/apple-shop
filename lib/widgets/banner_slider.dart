@@ -5,10 +5,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '/widgets/cached_image.dart';
 import '../constants/colors.dart';
 
-// ignore: must_be_immutable
 class BannerSlider extends StatelessWidget {
-  BannerSlider({super.key, required this.bannerList});
-  List<CampaignBanner> bannerList;
+  final List<CampaignBanner> bannerList;
+  const BannerSlider({super.key, required this.bannerList});
 
   @override
   Widget build(BuildContext context) {
