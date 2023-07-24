@@ -26,15 +26,15 @@ class Product {
   factory Product.fromMapJson(Map<String, dynamic> jsonObject) {
     return Product(
       id: jsonObject['id'],
-      collectionId: jsonObject['collectionId'],
-      thumbnail: 'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
-      description: jsonObject['description'],
-      discountPrice: jsonObject['discount_price'],
-      price: jsonObject['price'],
-      popularity: jsonObject['popularity'],
       name: jsonObject['name'],
+      price: jsonObject['price'],
       quantity: jsonObject['quantity'],
       category: jsonObject['category'],
+      popularity: jsonObject['popularity'],
+      description: jsonObject['description'],
+      collectionId: jsonObject['collectionId'],
+      discountPrice: jsonObject['price'] + jsonObject['discount_price'],
+      thumbnail: 'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
     );
   }
 }
