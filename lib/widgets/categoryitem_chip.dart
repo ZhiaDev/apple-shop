@@ -1,46 +1,46 @@
+import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/colors.dart';
-
+import '/data/model/category.dart';
 
 class CategoryItemChip extends StatelessWidget {
-  const CategoryItemChip({
-    super.key,
-  });
+  final Category category;
+  const CategoryItemChip({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
+    String categoryColor = 'FF${category.color}';
+    int hexColor = int.parse(categoryColor, radix: 16);
+
     return Padding(
       padding: const EdgeInsets.only(right: 18),
       child: Column(
         children: [
           Container(
-            height: 56,
-            width: 56,
-            decoration: ShapeDecoration(
-              color: Kcolor.secondary,
-              shadows: const [
-                BoxShadow(
-                  color: Kcolor.secondary,
-                  offset: Offset(0, 15),
-                  blurRadius: 42,
-                  spreadRadius: -10,
-                )
-              ],
-              shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.circular(48),
+              height: 56,
+              width: 56,
+              decoration: ShapeDecoration(
+                color: Color(hexColor),
+                shadows: [
+                  BoxShadow(
+                    color: Color(hexColor),
+                    blurRadius: 42,
+                    spreadRadius: -10,
+                    offset: const Offset(0, 15),
+                  )
+                ],
+                shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.circular(48),
+                ),
               ),
-            ),
-            child: const Icon(
-              Icons.mobile_off_sharp,
-              color: Kcolor.white,
-              size: 26,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'همه',
-            style: TextStyle(fontSize: 13, fontFamily: 'SB'),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: CachedImage(imageUrl: category.icon, radius: 0),
+              )),
+          const SizedBox(height: 6),
+          Text(
+            category.title ?? 'دسته محصول',
+            style: const TextStyle(fontSize: 12, fontFamily: 'SB'),
           )
         ],
       ),
