@@ -14,10 +14,9 @@ class CampaignBanner {
   factory CampaignBanner.fromMapJson(Map<String, dynamic> jsonObject) {
     return CampaignBanner(
       id: jsonObject['id'],
-      collectionId: jsonObject['collectionId'],
       categoryId: jsonObject['categoryId'],
-      thumbnail:
-          'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
+      collectionId: jsonObject['collectionId'],
+      thumbnail: 'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
     );
   }
 }

@@ -17,14 +17,12 @@ class Category {
 
   factory Category.fromMapJson(Map<String, dynamic> jsonObject) {
     return Category(
-      collectionId: jsonObject['collectionId'],
       id: jsonObject['id'],
-      thumbnail:
-          'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
       title: jsonObject['title'],
       color: jsonObject['color'],
-      icon:
-          'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['icon']}',
+      collectionId: jsonObject['collectionId'],
+      icon: 'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['icon']}',
+      thumbnail: 'http://startflutter.ir/api/files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
     );
   }
 }
