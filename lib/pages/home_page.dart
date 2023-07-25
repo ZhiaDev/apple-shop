@@ -37,116 +37,126 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            return CustomScrollView(
-              slivers: [
-                // Banner
-                if (state is HomeLoadingState) ...{
-                  const HomeShimmerLoading()
-                } else ...{
-                  // Search Box
-                  const _GetSearchBox(),
-                  if (state is HomeRequestSuccessState) ...[
-                    state.bannerList.fold(
-                      (exceptionMessage) {
-                        return SliverToBoxAdapter(
-                            child: Column(
-                          children: [
-                            Icon(
-                              Icons
-                                  .signal_wifi_statusbar_connected_no_internet_4_sharp,
-                              color: Theme.of(context).colorScheme.error,
-                              size: 32,
-                            ),
-                            const Text('خطا در بارگذاری محتوا'),
-                          ],
-                        ));
-                      },
-                      (bannerList) {
-                        return _GetBanners(campaignBanner: bannerList);
-                      },
-                    )
-                  ],
+            return RefreshIndicator(
+              onRefresh: () {
+                return Future.delayed(const Duration(microseconds: 500), () {
+                  BlocProvider.of<HomeBloc>(context)
+                      .add(HomeGetwInitializedData());
+                });
+              },
+              color: Kcolor.primery,
+              
+              child: CustomScrollView(
+                slivers: [
+                  // Banner
+                  if (state is HomeLoadingState) ...{
+                    const HomeShimmerLoading()
+                  } else ...{
+                    // Search Box
+                    const _GetSearchBox(),
+                    if (state is HomeRequestSuccessState) ...[
+                      state.bannerList.fold(
+                        (exceptionMessage) {
+                          return SliverToBoxAdapter(
+                              child: Column(
+                            children: [
+                              Icon(
+                                Icons
+                                    .signal_wifi_statusbar_connected_no_internet_4_sharp,
+                                color: Theme.of(context).colorScheme.error,
+                                size: 32,
+                              ),
+                              const Text('خطا در بارگذاری محتوا'),
+                            ],
+                          ));
+                        },
+                        (bannerList) {
+                          return _GetBanners(campaignBanner: bannerList);
+                        },
+                      )
+                    ],
 
-                  // Category list
-                  if (state is HomeRequestSuccessState) ...[
-                    state.categoryList.fold(
-                      (exceptionMessage) {
-                        return const SliverToBoxAdapter(
-                          child: SizedBox(),
-                        );
-                      },
-                      (categoryList) {
-                        return const _GetCategoryTitle();
-                      },
-                    )
-                  ],
-                  if (state is HomeRequestSuccessState) ...[
-                    state.categoryList.fold(
-                      (exceptionMessage) {
-                        return const SliverToBoxAdapter(
-                          child: SizedBox(),
-                        );
-                      },
-                      (categoryList) {
-                        return _GetCategoryList(categoryList: categoryList);
-                      },
-                    )
-                  ],
-                  const SliverToBoxAdapter(child: SizedBox(height: 12)),
+                    // Category list
+                    if (state is HomeRequestSuccessState) ...[
+                      state.categoryList.fold(
+                        (exceptionMessage) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(),
+                          );
+                        },
+                        (categoryList) {
+                          return const _GetCategoryTitle();
+                        },
+                      )
+                    ],
+                    if (state is HomeRequestSuccessState) ...[
+                      state.categoryList.fold(
+                        (exceptionMessage) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(),
+                          );
+                        },
+                        (categoryList) {
+                          return _GetCategoryList(categoryList: categoryList);
+                        },
+                      )
+                    ],
+                    const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
-                  // Best Seller Products
-                  if (state is HomeRequestSuccessState) ...[
-                    state.bestSellerProductList.fold(
-                      (exceptionMessage) {
-                        return const SliverToBoxAdapter(
-                          child: SizedBox(),
-                        );
-                      },
-                      (productList) {
-                        return const _GetBestSellerTitle();
-                      },
-                    )
-                  ],
-                  if (state is HomeRequestSuccessState) ...[
-                    state.bestSellerProductList.fold(
-                      (exceptionMessage) {
-                        return const SliverToBoxAdapter(
-                          child: SizedBox(),
-                        );
-                      },
-                      (productList) {
-                        return _GetBestSellerList(productList: productList);
-                      },
-                    )
-                  ],
+                    // Best Seller Products
+                    if (state is HomeRequestSuccessState) ...[
+                      state.bestSellerProductList.fold(
+                        (exceptionMessage) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(),
+                          );
+                        },
+                        (productList) {
+                          return const _GetBestSellerTitle();
+                        },
+                      )
+                    ],
+                    if (state is HomeRequestSuccessState) ...[
+                      state.bestSellerProductList.fold(
+                        (exceptionMessage) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(),
+                          );
+                        },
+                        (productList) {
+                          return _GetBestSellerList(productList: productList);
+                        },
+                      )
+                    ],
 
-                  // Hotest Products
-                  if (state is HomeRequestSuccessState) ...[
-                    state.hotestProductList.fold(
-                      (exceptionMessage) {
-                        return const SliverToBoxAdapter(
-                          child: SizedBox(),
-                        );
-                      },
-                      (productList) {
-                        return const _GetMostViewTitle();
-                      },
-                    )
-                  ],
-                  if (state is HomeRequestSuccessState) ...[
-                    state.hotestProductList.fold(
-                      (exceptionMessage) {
-                        return const SliverToBoxAdapter(
-                          child: SizedBox(),
-                        );
-                      },
-                      (productList) {
-                        return _GetMostViewList(productList: productList);
-                      },
-                    )
-                  ],
-                },
-              ],
+                    // Hotest Products
+                    if (state is HomeRequestSuccessState) ...[
+                      state.hotestProductList.fold(
+                        (exceptionMessage) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(),
+                          );
+                        },
+                        (productList) {
+                          return const _GetMostViewTitle();
+                        },
+                      )
+                    ],
+                    if (state is HomeRequestSuccessState) ...[
+                      state.hotestProductList.fold(
+                        (exceptionMessage) {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(),
+                          );
+                        },
+                        (productList) {
+                          return _GetMostViewList(productList: productList);
+                        },
+                      )
+                    ],
+                  },
+                ],
+              ),
             );
           },
         ),
