@@ -186,3 +186,78 @@ class HomeShimmerLoading extends StatelessWidget {
     );
   }
 }
+
+class CategoryShimmerLoading extends StatelessWidget {
+  const CategoryShimmerLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Shimmer.fromColors(
+            baseColor: Kcolor.white,
+            highlightColor: Kcolor.grey2,
+            child: Container(
+              height: 42,
+              margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
+              decoration: BoxDecoration(
+                color: Kcolor.white,
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+          ),
+          // Shimmer.fromColors(
+          //   baseColor: Kcolor.white,
+          //   highlightColor: Kcolor.grey2,
+          //   child: SliverPadding(
+          //     padding: const EdgeInsets.symmetric(horizontal: 32),
+          //     sliver: SliverGrid(
+          //       delegate: SliverChildBuilderDelegate(
+          //         childCount: 8,
+          //         (context, index) => Container(
+          //           decoration: BoxDecoration(
+          //             color: Kcolor.white,
+          //             borderRadius: BorderRadius.circular(15),
+          //           ),
+          //         ),
+          //       ),
+          //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          //         crossAxisCount: 2,
+          //         mainAxisSpacing: 20,
+          //         crossAxisSpacing: 20,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Shimmer.fromColors(
+            baseColor: Kcolor.white,
+            highlightColor: Kcolor.grey2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 20,
+                ),
+                itemCount: 8,
+                itemBuilder: (BuildContext ctx, index) {
+                  return Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Kcolor.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
