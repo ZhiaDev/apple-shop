@@ -74,7 +74,18 @@ class _CategoryPageState extends State<CategoryPage> {
                 }
                 if (state is CategoryResponseState) {
                   return state.response.fold(
-                    (l) => SliverToBoxAdapter(child: Text(l)),
+                    (l) => SliverToBoxAdapter(
+                        child: Column(
+                      children: [
+                        Icon(
+                          Icons
+                              .signal_wifi_statusbar_connected_no_internet_4_sharp,
+                          color: Theme.of(context).colorScheme.error,
+                          size: 32,
+                        ),
+                        const Text('خطا در بارگذاری محتوا'),
+                      ],
+                    )),
                     (r) => CategoryGridList(list: r),
                   );
                 }
