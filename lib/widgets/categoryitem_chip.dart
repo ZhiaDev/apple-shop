@@ -17,26 +17,29 @@ class CategoryItemChip extends StatelessWidget {
       child: Column(
         children: [
           Container(
-              height: 56,
-              width: 56,
-              decoration: ShapeDecoration(
-                color: Color(hexColor),
-                shadows: [
-                  BoxShadow(
-                    color: Color(hexColor),
-                    blurRadius: 42,
-                    spreadRadius: -10,
-                    offset: const Offset(0, 15),
-                  )
-                ],
-                shape: ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.circular(48),
-                ),
+            height: 56,
+            width: 56,
+            decoration: ShapeDecoration(
+              color: Color(hexColor),
+              shadows: [
+                BoxShadow(
+                  color: Color(hexColor),
+                  blurRadius: 42,
+                  spreadRadius: -10,
+                  offset: const Offset(0, 15),
+                )
+              ],
+              shape: ContinuousRectangleBorder(
+                borderRadius: BorderRadius.circular(48),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
                 child: CachedImage(imageUrl: category.icon, radius: 0),
-              )),
+              ),
+            ),
+          ),
           const SizedBox(height: 6),
           Text(
             category.title ?? 'دسته محصول',
