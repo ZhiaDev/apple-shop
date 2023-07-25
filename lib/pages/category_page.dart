@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../utility/svg.dart';
 import '../gen/assets.gen.dart';
 import '../constants/colors.dart';
+import '../widgets/shimmer_loading.dart';
 import '/data/model/category.dart';
 import '/widgets/cached_image.dart';
 import '/bloc/category/category_bloc.dart';
@@ -30,73 +31,77 @@ class _CategoryPageState extends State<CategoryPage> {
       // appBar: AppBar(),
       backgroundColor: Kcolor.background,
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: Container(
-                height: 42,
-                margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
-                decoration: BoxDecoration(
-                  color: Kcolor.white,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Text(
-                      'دسته بندی',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontFamily: 'SB',
-                        color: Kcolor.primery,
-                      ),
-                    ),
-                    Positioned(
-                      left: 10,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 2),
-                        child: Ksvg(
-                          path: Assets.icons.apple,
-                          size: 28,
-                          color: Kcolor.primery,
+        child: RefreshIndicator(
+          onRefresh: () {
+            return Future.delayed(const Duration(microseconds: 500), () {
+              BlocProvider.of<CategoryBloc>(context).add(CategoryRequestList());
+            });
+          },
+          color: Kcolor.primery,
+          child: BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              return CustomScrollView(
+                slivers: [
+                  if (state is CategoryLoadingState) ...{
+                    const CategoryShimmerLoading()
+                  } else ...{
+                    SliverToBoxAdapter(
+                      child: Container(
+                        height: 42,
+                        margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
+                        decoration: BoxDecoration(
+                          color: Kcolor.white,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            const Text(
+                              'دسته بندی',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'SB',
+                                color: Kcolor.primery,
+                              ),
+                            ),
+                            Positioned(
+                              left: 10,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 2),
+                                child: Ksvg(
+                                  path: Assets.icons.apple,
+                                  size: 28,
+                                  color: Kcolor.primery,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            BlocBuilder<CategoryBloc, CategoryState>(
-              builder: (context, state) {
-                if (state is CategoryLoadingState) {
-                  return const SliverToBoxAdapter(
-                      child: CircularProgressIndicator());
-                }
-                if (state is CategoryResponseState) {
-                  return state.response.fold(
-                    (l) => SliverToBoxAdapter(
-                        child: Column(
-                      children: [
-                        Icon(
-                          Icons
-                              .signal_wifi_statusbar_connected_no_internet_4_sharp,
-                          color: Theme.of(context).colorScheme.error,
-                          size: 32,
-                        ),
-                        const Text('خطا در بارگذاری محتوا'),
-                      ],
-                    )),
-                    (r) => CategoryGridList(list: r),
-                  );
-                }
-
-                return const SliverToBoxAdapter(
-                  child: Text('Unknown Error!'),
-                );
-              },
-            ),
-            const SliverPadding(padding: EdgeInsets.only(bottom: 32))
-          ],
+                    if (state is CategoryResponseState) ...[
+                      state.response.fold(
+                        (l) => SliverToBoxAdapter(
+                            child: Column(
+                          children: [
+                            Icon(
+                              Icons
+                                  .signal_wifi_statusbar_connected_no_internet_4_sharp,
+                              color: Theme.of(context).colorScheme.error,
+                              size: 32,
+                            ),
+                            const Text('خطا در بارگذاری محتوا'),
+                          ],
+                        )),
+                        (r) => CategoryGridList(list: r),
+                      )
+                    ],
+                    const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
+                  },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
