@@ -49,7 +49,17 @@ class _HomePageState extends State<HomePage> {
                     state.bannerList.fold(
                       (exceptionMessage) {
                         return SliverToBoxAdapter(
-                            child: Text(exceptionMessage));
+                            child: Column(
+                          children: [
+                            Icon(
+                              Icons
+                                  .signal_wifi_statusbar_connected_no_internet_4_sharp,
+                              color: Theme.of(context).colorScheme.error,
+                              size: 32,
+                            ),
+                            const Text('خطا در بارگذاری محتوا'),
+                          ],
+                        ));
                       },
                       (bannerList) {
                         return _GetBanners(campaignBanner: bannerList);
@@ -58,12 +68,24 @@ class _HomePageState extends State<HomePage> {
                   ],
 
                   // Category list
-                  const _GetCategoryTitle(),
                   if (state is HomeRequestSuccessState) ...[
                     state.categoryList.fold(
                       (exceptionMessage) {
-                        return SliverToBoxAdapter(
-                            child: Text(exceptionMessage));
+                        return const SliverToBoxAdapter(
+                          child: SizedBox(),
+                        );
+                      },
+                      (categoryList) {
+                        return const _GetCategoryTitle();
+                      },
+                    )
+                  ],
+                  if (state is HomeRequestSuccessState) ...[
+                    state.categoryList.fold(
+                      (exceptionMessage) {
+                        return const SliverToBoxAdapter(
+                          child: SizedBox(),
+                        );
                       },
                       (categoryList) {
                         return _GetCategoryList(categoryList: categoryList);
@@ -73,12 +95,24 @@ class _HomePageState extends State<HomePage> {
                   const SliverToBoxAdapter(child: SizedBox(height: 12)),
 
                   // Best Seller Products
-                  const _GetBestSellerTitle(),
                   if (state is HomeRequestSuccessState) ...[
                     state.bestSellerProductList.fold(
                       (exceptionMessage) {
-                        return SliverToBoxAdapter(
-                            child: Text(exceptionMessage));
+                        return const SliverToBoxAdapter(
+                          child: SizedBox(),
+                        );
+                      },
+                      (productList) {
+                        return const _GetBestSellerTitle();
+                      },
+                    )
+                  ],
+                  if (state is HomeRequestSuccessState) ...[
+                    state.bestSellerProductList.fold(
+                      (exceptionMessage) {
+                        return const SliverToBoxAdapter(
+                          child: SizedBox(),
+                        );
                       },
                       (productList) {
                         return _GetBestSellerList(productList: productList);
@@ -87,12 +121,24 @@ class _HomePageState extends State<HomePage> {
                   ],
 
                   // Hotest Products
-                  const _GetMostViewTitle(),
                   if (state is HomeRequestSuccessState) ...[
                     state.hotestProductList.fold(
                       (exceptionMessage) {
-                        return SliverToBoxAdapter(
-                            child: Text(exceptionMessage));
+                        return const SliverToBoxAdapter(
+                          child: SizedBox(),
+                        );
+                      },
+                      (productList) {
+                        return const _GetMostViewTitle();
+                      },
+                    )
+                  ],
+                  if (state is HomeRequestSuccessState) ...[
+                    state.hotestProductList.fold(
+                      (exceptionMessage) {
+                        return const SliverToBoxAdapter(
+                          child: SizedBox(),
+                        );
                       },
                       (productList) {
                         return _GetMostViewList(productList: productList);
