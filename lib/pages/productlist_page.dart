@@ -70,7 +70,7 @@ class ProductListPage extends StatelessWidget {
                 //   (context, index) => const ProductItem()
                 // ),
                 itemBuilder: (BuildContext context, int index) {
-                  return const ProductItem();
+                  // return ProductItem();
                 },
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
