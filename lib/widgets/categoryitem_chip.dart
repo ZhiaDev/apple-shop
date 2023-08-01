@@ -1,7 +1,10 @@
-import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/data/model/category.dart';
+import '/widgets/cached_image.dart';
+import '/pages/productlist_page.dart';
+import '/bloc/category_product/category_product_bloc.dart';
 
 class CategoryItemChip extends StatelessWidget {
   final Category category;
@@ -12,40 +15,50 @@ class CategoryItemChip extends StatelessWidget {
     String categoryColor = 'FF${category.color}';
     int hexColor = int.parse(categoryColor, radix: 16);
 
-    return Padding(
-      padding: const EdgeInsets.only(right: 18),
-      child: Column(
-        children: [
-          Container(
-            height: 56,
-            width: 56,
-            decoration: ShapeDecoration(
-              color: Color(hexColor),
-              shadows: [
-                BoxShadow(
-                  color: Color(hexColor),
-                  blurRadius: 42,
-                  spreadRadius: -10,
-                  offset: const Offset(0, 15),
-                )
-              ],
-              shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.circular(48),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: CachedImage(imageUrl: category.icon, radius: 0),
-              ),
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) => CategoryProductBloc(),
+            child: ProductListPage(category: category),
           ),
-          const SizedBox(height: 6),
-          Text(
-            category.title ?? 'دسته محصول',
-            style: const TextStyle(fontSize: 12, fontFamily: 'SB'),
-          )
-        ],
+        ));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 18),
+        child: Column(
+          children: [
+            Container(
+              height: 56,
+              width: 56,
+              decoration: ShapeDecoration(
+                color: Color(hexColor),
+                shadows: [
+                  BoxShadow(
+                    color: Color(hexColor),
+                    blurRadius: 42,
+                    spreadRadius: -10,
+                    offset: const Offset(0, 15),
+                  )
+                ],
+                shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.circular(48),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Center(
+                  child: CachedImage(imageUrl: category.icon, radius: 0),
+                ),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Text(
+              category.title ?? 'دسته محصول',
+              style: const TextStyle(fontSize: 12, fontFamily: 'SB'),
+            )
+          ],
+        ),
       ),
     );
   }

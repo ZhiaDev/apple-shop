@@ -1,4 +1,6 @@
+import 'package:apple_shop/data/datasource/category_product_datasource.dart';
 import 'package:apple_shop/data/datasource/product_detail_datasource.dart';
+import 'package:apple_shop/data/repository/category_product_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +44,9 @@ Future<void> getItInit() async {
   locator.registerFactory<IProductDetailDataSource>(
     () => ProductDetailRemoteDataSource(),
   );
+  locator.registerFactory<ICategoryProductDataSource>(
+    () => CategoryProductRemoteDataSource(),
+  );
 
   // Repositories
   locator.registerFactory<IAuthenticationRepositiry>(
@@ -58,5 +63,8 @@ Future<void> getItInit() async {
   );
   locator.registerFactory<IProductDetailRepository>(
     () => ProductDetailRepository(),
+  );
+  locator.registerFactory<ICategoryProductRepository>(
+    () => CategoryProductRepository(),
   );
 }

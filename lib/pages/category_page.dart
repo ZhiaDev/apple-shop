@@ -1,6 +1,8 @@
+import 'package:apple_shop/pages/productlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/category_product/category_product_bloc.dart';
 import '../utility/svg.dart';
 import '../gen/assets.gen.dart';
 import '../constants/colors.dart';
@@ -110,6 +112,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
 class CategoryGridList extends StatelessWidget {
   final List<Category>? list;
+  // final Category category;
   const CategoryGridList({super.key, required this.list});
 
   @override
@@ -119,9 +122,19 @@ class CategoryGridList extends StatelessWidget {
       sliver: SliverGrid(
         delegate: SliverChildBuilderDelegate(
           childCount: list?.length ?? 0,
-          (context, index) => CachedImage(
-            imageUrl: list?[index].thumbnail,
-            radius: 15,
+          (context, index) => GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BlocProvider(
+                  create: (context) => CategoryProductBloc(),
+                  child: ProductListPage(category: list![index]),
+                ),
+              ));
+            },
+            child: CachedImage(
+              imageUrl: list?[index].thumbnail,
+              radius: 15,
+            ),
           ),
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
