@@ -74,7 +74,7 @@ class ProductItem extends StatelessWidget {
                         top: 1,
                       ),
                       child: Text(
-                        '%${(((product.price! - product.discountPrice!) / product.price!) * 100).round()}',
+                        '%${product.percent?.round()}',
                         style: const TextStyle(
                           fontSize: 12,
                           fontFamily: 'SB',
