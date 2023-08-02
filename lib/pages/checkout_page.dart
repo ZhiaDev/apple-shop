@@ -1,3 +1,4 @@
+import 'package:apple_shop/utility/string_extension.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,7 @@ class CheckoutPage extends StatelessWidget {
         child: Center(
           child: CustomScrollView(
             slivers: [
+              // AppBar
               SliverToBoxAdapter(
                 child: Container(
                   height: 42,
@@ -117,6 +119,7 @@ class CheckoutPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Title of Product
                         const Text(
                           'آیفون ۱۳ پرومکس دوسیم کارت',
                           maxLines: 1,
@@ -128,6 +131,8 @@ class CheckoutPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
+
+                        // Subtitle of product
                         const Text(
                           'گارانتی 18 ماه مدیا پردازش',
                           style: TextStyle(color: Kcolor.grey, fontSize: 12),
@@ -135,6 +140,7 @@ class CheckoutPage extends StatelessWidget {
                         const SizedBox(height: 8),
                         Row(
                           children: [
+                            // Price of Product
                             const Row(
                               children: [
                                 Text(
@@ -154,6 +160,8 @@ class CheckoutPage extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(width: 4),
+
+                            // Offer Percent
                             Container(
                               decoration: BoxDecoration(
                                 color: Kcolor.tertiary,
@@ -172,12 +180,45 @@ class CheckoutPage extends StatelessWidget {
                           ],
                         ),
                         const Spacer(),
-                        const Wrap(
+
+                        // Details of product
+                        Wrap(
                           spacing: 4,
                           runSpacing: 8,
                           children: [
-                            OptionChip(),
-                            OptionChip(),
+                            OptionChip(
+                              title: '100 گیگ',
+                              color: 'DF4F3B',
+                            ),
+                            Container(
+                              height: 28,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(
+                                  color: Kcolor.grey.withOpacity(0.6),
+                                ),
+                              ),
+                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Ksvg(
+                                    path: Assets.icons.delete,
+                                    size: 16,
+                                    color: Kcolor.tertiary,
+                                  ),
+                                  const SizedBox(width: 4),
+                                  const Text(
+                                    'حذف',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'SM',
+                                      color: Kcolor.tertiary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                         const Spacer(),
@@ -229,6 +270,8 @@ class CheckoutPage extends StatelessWidget {
               ),
             ],
           ),
+
+          // real Price
           const Padding(
             padding: EdgeInsets.only(bottom: 12, top: 0),
             child: Row(
@@ -253,13 +296,18 @@ class CheckoutPage extends StatelessWidget {
 }
 
 class OptionChip extends StatelessWidget {
+  final String? color;
+  final String title;
   const OptionChip({
     super.key,
+    this.color,
+    required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 28,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
@@ -270,19 +318,24 @@ class OptionChip extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            '۲۵۶ گیگابایت',
-            style: TextStyle(
+          if (color != null) ...{
+            Container(
+              height: 12,
+              width: 12,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: color.parseToColor(),
+              ),
+            ),
+            const SizedBox(width: 8),
+          },
+          Text(
+            title,
+            style: const TextStyle(
               fontSize: 12,
               fontFamily: 'SM',
               color: Kcolor.grey,
             ),
-          ),
-          const SizedBox(width: 4),
-          Ksvg(
-            size: 14,
-            color: Kcolor.grey,
-            path: Assets.icons.option,
           ),
         ],
       ),
