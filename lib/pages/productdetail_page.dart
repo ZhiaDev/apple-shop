@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '/utility/string_extension.dart';
 import '/data/model/product_image.dart';
 import '/data/model/product_variant.dart';
 import '/data/model/properties.dart';
@@ -925,8 +926,6 @@ class _ColorVariantListState extends State<ColorVariantList> {
         scrollDirection: Axis.horizontal,
         itemCount: widget.variantList.length,
         itemBuilder: (context, index) {
-          String itemColor = 'FF${widget.variantList[index].value}';
-          int hexColor = int.parse(itemColor, radix: 16);
           return GestureDetector(
             onTap: () {
               setState(() {
@@ -959,7 +958,7 @@ class _ColorVariantListState extends State<ColorVariantList> {
                       width: 12,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Color(hexColor),
+                        color: widget.variantList[index].value.parseToColor(),
                       ),
                     ),
                     const SizedBox(width: 8),
