@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '/data/model/category.dart';
 import '/widgets/cached_image.dart';
 import '/pages/productlist_page.dart';
+import '/utility/string_extension.dart';
 import '/bloc/category_product/category_product_bloc.dart';
 
 class CategoryItemChip extends StatelessWidget {
@@ -12,9 +13,6 @@ class CategoryItemChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String categoryColor = 'FF${category.color}';
-    int hexColor = int.parse(categoryColor, radix: 16);
-
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
@@ -32,10 +30,10 @@ class CategoryItemChip extends StatelessWidget {
               height: 56,
               width: 56,
               decoration: ShapeDecoration(
-                color: Color(hexColor),
+                color: category.color.parseToColor(),
                 shadows: [
                   BoxShadow(
-                    color: Color(hexColor),
+                    color: category.color.parseToColor(),
                     blurRadius: 42,
                     spreadRadius: -10,
                     offset: const Offset(0, 15),
