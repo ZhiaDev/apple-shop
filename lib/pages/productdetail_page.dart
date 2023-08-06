@@ -25,7 +25,6 @@ class ProductDetailPage extends StatefulWidget {
   State<ProductDetailPage> createState() => _ProductDetailPageState();
 }
 
-
 class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   void initState() {
@@ -51,15 +50,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 top: BorderSide(color: Kcolor.white, width: 1),
               ),
             ),
-            child: const Column(
+            child: Column(
               children: [
-                SizedBox(height: 14),
+                const SizedBox(height: 14),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    AddToCheckoutButton(),
-                    PriceTagButton(),
+                    AddToCheckoutButton(product: widget.product),
+                    const PriceTagButton(),
                   ],
                 ),
               ],
@@ -749,7 +748,8 @@ class _GalleryImageState extends State<GalleryImage> {
 }
 
 class AddToCheckoutButton extends StatelessWidget {
-  const AddToCheckoutButton({super.key});
+  final Product product;
+  const AddToCheckoutButton({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -774,7 +774,6 @@ class AddToCheckoutButton extends StatelessWidget {
               child: Container(
                 height: 53,
                 width: 160,
-                padding: const EdgeInsets.all(4.0),
                 decoration: BoxDecoration(
                   color: Kcolor.primery.withOpacity(0.2),
                   border: Border.all(color: Kcolor.white.withOpacity(0.8)),
@@ -784,16 +783,37 @@ class AddToCheckoutButton extends StatelessWidget {
                     opacity: 0.1,
                   ),
                 ),
-                child: const Center(
-                  child: Text(
-                    'افزودن به سبد خرید',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: 'SB',
-                      letterSpacing: -0.1,
-                      color: Kcolor.white,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      splashColor: Kcolor.primery.withOpacity(0.5),
+                      focusColor: Kcolor.primery.withOpacity(0.5),
+                      highlightColor: Kcolor.primery.withOpacity(0.5),
+                      onTap: () {
+                        context
+                            .read<ProductBloc>()
+                            .add(ProductAddToCheckout(product));
+                      },
+                      child: Container(
+                        height: 53,
+                        width: 160,
+                        padding: const EdgeInsets.all(4.0),
+                        child: const Center(
+                          child: Text(
+                            'افزودن به سبد خرید',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontFamily: 'SB',
+                              letterSpacing: -0.1,
+                              color: Kcolor.white,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

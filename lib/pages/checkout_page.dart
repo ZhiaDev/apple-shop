@@ -1,7 +1,11 @@
-import 'package:apple_shop/utility/string_extension.dart';
+import 'package:apple_shop/widgets/cached_image.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
+import '../data/model/checkout_item.dart';
+import '/utility/string_extension.dart';
 import '../gen/assets.gen.dart';
 import '../utility/svg.dart';
 import '/constants/colors.dart';
@@ -11,6 +15,8 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box<CheckoutItem>('CheckoutItemBox');
+
     return Scaffold(
       backgroundColor: Kcolor.background,
       floatingActionButton: FloatingActionButton.extended(
@@ -70,9 +76,9 @@ class CheckoutPage extends StatelessWidget {
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
+                  childCount: box.values.length,
                   (context, index) {
-                    return cardWidget(context);
+                    return CardWidget(checkoutItem: box.values.toList()[index]);
                   },
                 ),
               ),
@@ -83,8 +89,14 @@ class CheckoutPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  Container cardWidget(BuildContext context) {
+class CardWidget extends StatelessWidget {
+  final CheckoutItem checkoutItem;
+  const CardWidget({super.key, required this.checkoutItem});
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: 249,
       margin: const EdgeInsets.fromLTRB(32, 0, 32, 20),
@@ -108,9 +120,12 @@ class CheckoutPage extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 12),
-                  child: Image.asset(
-                    Assets.images.iPhone14ProMax.path,
+                  child: SizedBox(
                     width: 80,
+                    child: CachedImage(
+                      imageUrl: checkoutItem.thumbnail,
+                      radius: 0,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -120,12 +135,12 @@ class CheckoutPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Title of Product
-                        const Text(
-                          'آیفون ۱۳ پرومکس دوسیم کارت',
+                        Text(
+                          checkoutItem.name ?? 'نام محصول',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 18,
+                          style: const TextStyle(
+                            fontSize: 16,
                             fontFamily: 'SB',
                             color: Kcolor.black,
                           ),
@@ -141,16 +156,16 @@ class CheckoutPage extends StatelessWidget {
                         Row(
                           children: [
                             // Price of Product
-                            const Row(
+                            Row(
                               children: [
                                 Text(
-                                  '۴۶٬۰۰۰٬۰۰۰',
-                                  style: TextStyle(
+                                  checkoutItem.price.toString().seRagham(),
+                                  style: const TextStyle(
                                     color: Kcolor.grey,
                                     fontSize: 16,
                                   ),
                                 ),
-                                Text(
+                                const Text(
                                   ' تومان',
                                   style: TextStyle(
                                     color: Kcolor.grey,
@@ -168,9 +183,9 @@ class CheckoutPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(365),
                               ),
                               padding: const EdgeInsets.fromLTRB(6, 1, 6, 0),
-                              child: const Text(
-                                '%3',
-                                style: TextStyle(
+                              child: Text(
+                                '%${checkoutItem.percent?.round()}',
+                                style: const TextStyle(
                                   fontSize: 12,
                                   fontFamily: 'SB',
                                   color: Kcolor.white,
@@ -272,17 +287,17 @@ class CheckoutPage extends StatelessWidget {
           ),
 
           // real Price
-          const Padding(
-            padding: EdgeInsets.only(bottom: 12, top: 0),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12, top: 0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '۴۶٬۰۰۰٬۰۰۰',
-                  style: TextStyle(fontSize: 18),
+                  checkoutItem.discountPrice.toString().seRagham(),
+                  style: const TextStyle(fontSize: 18),
                 ),
-                Text(
+                const Text(
                   ' تومان',
                   style: TextStyle(),
                 ),

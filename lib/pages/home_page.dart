@@ -32,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(),
       backgroundColor: Kcolor.background,
       body: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
@@ -45,7 +44,6 @@ class _HomePageState extends State<HomePage> {
                 });
               },
               color: Kcolor.primery,
-              
               child: CustomScrollView(
                 slivers: [
                   // Banner
