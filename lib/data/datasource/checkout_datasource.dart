@@ -3,6 +3,8 @@ import '/data/model/checkout_item.dart';
 
 abstract class ICheckoutDataSource {
   Future<void> addProduct(CheckoutItem checkoutItem);
+  Future<List<CheckoutItem>> getAllCheckoutItems();
+  Future<int> getFinalPrice();
 }
 
 class CheckoutLocalDataSource extends ICheckoutDataSource {
@@ -11,5 +13,19 @@ class CheckoutLocalDataSource extends ICheckoutDataSource {
   @override
   Future<void> addProduct(CheckoutItem checkoutItem) async {
     box.add(checkoutItem);
+  }
+
+  @override
+  Future<List<CheckoutItem>> getAllCheckoutItems() async {
+    return box.values.toList();
+  }
+
+  @override
+  Future<int> getFinalPrice() async {
+    var productList = box.values.toList();
+    var finalPrice = productList.fold(
+        0, (previousValue, element) => previousValue + element.discountPrice!);
+
+    return finalPrice;
   }
 }

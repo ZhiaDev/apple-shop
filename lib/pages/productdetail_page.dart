@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:apple_shop/bloc/checkout/checkout_bloc.dart';
+import 'package:apple_shop/bloc/checkout/checkout_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,232 +29,218 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
-  void initState() {
-    BlocProvider.of<ProductBloc>(context).add(
-      ProductInitializeEvent(
-        productId: widget.product.id!,
-        categoryId: widget.product.category!,
-      ),
-    );
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductBloc, ProductState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Kcolor.background,
-          bottomNavigationBar: Container(
-            height: 115,
-            decoration: const BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Kcolor.white, width: 1),
+    return BlocProvider(
+      create: (context) {
+        var bloc = ProductBloc();
+        bloc.add(ProductInitializeEvent(
+          productId: widget.product.id!,
+          categoryId: widget.product.category!,
+        ));
+        return bloc;
+      },
+
+      // Scaffold
+      child: BlocBuilder<ProductBloc, ProductState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: Kcolor.background,
+            bottomNavigationBar: Container(
+              height: 115,
+              decoration: const BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: Kcolor.white, width: 1),
+                ),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 14),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AddToCheckoutButton(product: widget.product),
+                      const PriceTagButton(),
+                    ],
+                  ),
+                ],
               ),
             ),
-            child: Column(
-              children: [
-                const SizedBox(height: 14),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    AddToCheckoutButton(product: widget.product),
-                    const PriceTagButton(),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          body: SafeArea(
-            child: RefreshIndicator(
-              onRefresh: () {
-                return Future.delayed(const Duration(microseconds: 500), () {
-                  BlocProvider.of<ProductBloc>(context).add(
-                    ProductInitializeEvent(
-                      productId: widget.product.id!,
-                      categoryId: widget.product.category!,
-                    ),
-                  );
-                });
-              },
-              child: CustomScrollView(
-                slivers: [
-                  // Circular Progress Indicator
-                  if (state is ProductLoadingState) ...[
-                    const SliverToBoxAdapter(
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  ],
+            body: SafeArea(
+              child: RefreshIndicator(
+                onRefresh: () {
+                  return Future.delayed(const Duration(microseconds: 500), () {
+                    BlocProvider.of<ProductBloc>(context).add(
+                      ProductInitializeEvent(
+                        productId: widget.product.id!,
+                        categoryId: widget.product.category!,
+                      ),
+                    );
+                  });
+                },
+                child: CustomScrollView(
+                  slivers: [
+                    // Circular Progress Indicator
+                    if (state is ProductLoadingState) ...[
+                      const SliverToBoxAdapter(
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    ],
 
-                  // AppBar
-                  if (state is ProductResponseState) ...[
+                    // AppBar
+                    if (state is ProductResponseState) ...[
+                      SliverToBoxAdapter(
+                        child: Container(
+                          height: 42,
+                          margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
+                          decoration: BoxDecoration(
+                            color: Kcolor.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              state.productCategory.fold(
+                                (l) => const Text(
+                                  'اطلاعات محصول',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'SB',
+                                    color: Kcolor.primery,
+                                  ),
+                                ),
+                                (r) => Text(
+                                  r.title ?? 'اطلاعات محصول',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: 'SB',
+                                    color: Kcolor.primery,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 10,
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Ksvg(
+                                    path: Assets.icons.apple,
+                                    size: 26,
+                                    color: Kcolor.primery,
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                right: 10,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Ksvg(
+                                    path: Assets.icons.arrowRight,
+                                    size: 26,
+                                    color: Kcolor.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+
+                    // Product name title
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(42, 0, 42, 18),
+                        child: Text(
+                          widget.product.name!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontFamily: 'SB',
+                            color: Kcolor.black,
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // Gallery Card
+                    if (state is ProductResponseState) ...[
+                      state.productImages.fold(
+                        (l) => const SliverToBoxAdapter(
+                          child: Text('unknown error'),
+                        ),
+                        (productImages) {
+                          return GalleryImage(
+                            images: productImages,
+                            defaultProductThumbnail: widget.product.thumbnail!,
+                          );
+                        },
+                      )
+                    ],
+
+                    // Product Variants
+                    if (state is ProductResponseState) ...[
+                      state.productVariant.fold(
+                        (l) => const SliverToBoxAdapter(
+                          child: Text('unknown error'),
+                        ),
+                        (productVariantList) {
+                          return VariantContainerGenerator(
+                            productVariantList: productVariantList,
+                          );
+                        },
+                      )
+                    ],
+
+                    if (state is ProductResponseState) ...[
+                      state.productProperties.fold(
+                        (l) => const SliverToBoxAdapter(
+                          child: Text('unknown error'),
+                        ),
+                        (r) {
+                          return ProductTechnicalDetail(properties: r);
+                        },
+                      )
+                    ],
+
+                    // Prodeuct Description
+                    ProdeuctDescription(
+                      productDescription:
+                          widget.product.description ?? 'بدون توضیحات',
+                    ),
+
+                    // User Comments
                     SliverToBoxAdapter(
                       child: Container(
-                        height: 42,
-                        margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
+                        height: 46,
+                        margin: const EdgeInsets.fromLTRB(32, 20, 32, 0),
                         decoration: BoxDecoration(
                           color: Kcolor.white,
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: Kcolor.grey),
                         ),
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            state.productCategory.fold(
-                              (l) => const Text(
-                                'اطلاعات محصول',
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            children: [
+                              const Text(
+                                'نظرات کاربران:',
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'SB',
-                                  color: Kcolor.primery,
-                                ),
-                              ),
-                              (r) => Text(
-                                r.title ?? 'اطلاعات محصول',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'SB',
-                                  color: Kcolor.primery,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              left: 10,
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: Ksvg(
-                                  path: Assets.icons.apple,
-                                  size: 26,
-                                  color: Kcolor.primery,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              right: 10,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Ksvg(
-                                  path: Assets.icons.arrowRight,
-                                  size: 26,
+                                  fontSize: 14,
+                                  fontFamily: 'SM',
                                   color: Kcolor.black,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-
-                  // Product name title
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(42, 0, 42, 18),
-                      child: Text(
-                        widget.product.name!,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'SB',
-                          color: Kcolor.black,
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Gallery Card
-                  if (state is ProductResponseState) ...[
-                    state.productImages.fold(
-                      (l) => const SliverToBoxAdapter(
-                        child: Text('unknown error'),
-                      ),
-                      (productImages) {
-                        return GalleryImage(
-                          images: productImages,
-                          defaultProductThumbnail: widget.product.thumbnail!,
-                        );
-                      },
-                    )
-                  ],
-
-                  // Product Variants
-                  if (state is ProductResponseState) ...[
-                    state.productVariant.fold(
-                      (l) => const SliverToBoxAdapter(
-                        child: Text('unknown error'),
-                      ),
-                      (productVariantList) {
-                        return VariantContainerGenerator(
-                          productVariantList: productVariantList,
-                        );
-                      },
-                    )
-                  ],
-
-                  if (state is ProductResponseState) ...[
-                    state.productProperties.fold(
-                      (l) => const SliverToBoxAdapter(
-                        child: Text('unknown error'),
-                      ),
-                      (r) {
-                        return ProductTechnicalDetail(properties: r);
-                      },
-                    )
-                  ],
-
-                  // Prodeuct Description
-                  ProdeuctDescription(
-                    productDescription:
-                        widget.product.description ?? 'بدون توضیحات',
-                  ),
-
-                  // User Comments
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 46,
-                      margin: const EdgeInsets.fromLTRB(32, 20, 32, 0),
-                      decoration: BoxDecoration(
-                        color: Kcolor.white,
-                        borderRadius: BorderRadius.circular(14),
-                        border: Border.all(color: Kcolor.grey),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Row(
-                          children: [
-                            const Text(
-                              'نظرات کاربران:',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'SM',
-                                color: Kcolor.black,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  width: 26,
-                                  height: 26,
-                                  decoration: BoxDecoration(
-                                    color: Kcolor.secondary,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      width: 1,
-                                      color: Kcolor.white,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 15,
-                                  child: Container(
+                              const SizedBox(width: 8),
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Container(
                                     width: 26,
                                     height: 26,
                                     decoration: BoxDecoration(
-                                      color: Kcolor.tertiary,
+                                      color: Kcolor.secondary,
                                       borderRadius: BorderRadius.circular(8),
                                       border: Border.all(
                                         width: 1,
@@ -260,91 +248,106 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       ),
                                     ),
                                   ),
-                                ),
-                                Positioned(
-                                  right: 30,
-                                  child: Container(
-                                    width: 26,
-                                    height: 26,
-                                    decoration: BoxDecoration(
-                                      color: Kcolor.primery,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: Kcolor.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 45,
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                      color: Kcolor.yellow,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: Kcolor.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 60,
-                                  child: Container(
-                                    height: 26,
-                                    width: 26,
-                                    decoration: BoxDecoration(
-                                      color: Kcolor.grey,
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: Kcolor.white,
-                                      ),
-                                    ),
-                                    child: const Center(
-                                      child: Text(
-                                        '99+',
-                                        style: TextStyle(
+                                  Positioned(
+                                    right: 15,
+                                    child: Container(
+                                      width: 26,
+                                      height: 26,
+                                      decoration: BoxDecoration(
+                                        color: Kcolor.tertiary,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 1,
                                           color: Kcolor.white,
-                                          fontFamily: 'SB',
-                                          fontSize: 10,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            const Text(
-                              'مشاهده',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontFamily: 'SM',
-                                color: Kcolor.primery,
+                                  Positioned(
+                                    right: 30,
+                                    child: Container(
+                                      width: 26,
+                                      height: 26,
+                                      decoration: BoxDecoration(
+                                        color: Kcolor.primery,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Kcolor.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 45,
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                        color: Kcolor.yellow,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Kcolor.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Positioned(
+                                    right: 60,
+                                    child: Container(
+                                      height: 26,
+                                      width: 26,
+                                      decoration: BoxDecoration(
+                                        color: Kcolor.grey,
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Kcolor.white,
+                                        ),
+                                      ),
+                                      child: const Center(
+                                        child: Text(
+                                          '99+',
+                                          style: TextStyle(
+                                            color: Kcolor.white,
+                                            fontFamily: 'SB',
+                                            fontSize: 10,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            Ksvg(
-                              size: 20,
-                              color: Kcolor.primery,
-                              path: Assets.icons.arrowLeft,
-                            ),
-                          ],
+                              const Spacer(),
+                              const Text(
+                                'مشاهده',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontFamily: 'SM',
+                                  color: Kcolor.primery,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Ksvg(
+                                size: 20,
+                                color: Kcolor.primery,
+                                path: Assets.icons.arrowLeft,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
-                ],
+                    const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -795,6 +798,9 @@ class AddToCheckoutButton extends StatelessWidget {
                         context
                             .read<ProductBloc>()
                             .add(ProductAddToCheckout(product));
+                        context
+                            .read<CheckoutBloc>()
+                            .add(FetchCheckoutItemListEvent());
                       },
                       child: Container(
                         height: 53,

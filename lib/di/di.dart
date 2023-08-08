@@ -1,3 +1,4 @@
+import 'package:apple_shop/bloc/checkout/checkout_bloc.dart';
 import 'package:apple_shop/data/datasource/category_product_datasource.dart';
 import 'package:apple_shop/data/datasource/checkout_datasource.dart';
 import 'package:apple_shop/data/datasource/product_detail_datasource.dart';
@@ -75,4 +76,7 @@ Future<void> getItInit() async {
   locator.registerFactory<ICheckoutRepository>(
     () => CheckoutRepository(),
   );
+
+  // ‌Bloc
+  locator.registerSingleton<CheckoutBloc>(CheckoutBloc());
 }

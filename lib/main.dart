@@ -16,13 +16,15 @@ import 'pages/checkout_page.dart';
 import '/bloc/home/home_bloc.dart';
 import '/data/model/checkout_item.dart';
 import '/bloc/category/category_bloc.dart';
+import '/bloc/checkout/checkout_bloc.dart';
+import '/bloc/checkout/checkout_event.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await getItInit();
   await Hive.initFlutter();
   Hive.registerAdapter(CheckoutItemAdapter());
   await Hive.openBox<CheckoutItem>('CheckoutItemBox');
+  await getItInit();
   runApp(const MainApp());
 }
 
@@ -196,7 +198,14 @@ class _MainAppState extends State<MainApp> {
         create: (context) => CategoryBloc(),
         child: const CategoryPage(),
       ),
-      const CheckoutPage(),
+      BlocProvider(
+        create: (context) {
+          var bloc = locator.get<CheckoutBloc>();
+          bloc.add(FetchCheckoutItemListEvent());
+          return bloc;
+        },
+        child: const CheckoutPage(),
+      ),
       const ProfilePage(),
     ];
   }

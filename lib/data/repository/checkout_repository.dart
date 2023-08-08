@@ -7,6 +7,8 @@ import '/di/di.dart';
 abstract class ICheckoutRepository {
   Future<Either<String, String>> addProductToCheckout(
       CheckoutItem checkoutItem);
+  Future<Either<String, List<CheckoutItem>>> getAllCheckoutItems();
+  Future<int> getFinalPrice();
 }
 
 class CheckoutRepository extends ICheckoutRepository {
@@ -21,5 +23,20 @@ class CheckoutRepository extends ICheckoutRepository {
     } catch (e) {
       return const Left('خطا در افزودن محصول به سبد خرید');
     }
+  }
+
+  @override
+  Future<Either<String, List<CheckoutItem>>> getAllCheckoutItems() async {
+    try {
+      var checkoutItemList = await _dataSource.getAllCheckoutItems();
+      return right(checkoutItemList);
+    } catch (e) {
+      return const Left('خطا در نمایش محصولات سبد خرید');
+    }
+  }
+
+  @override
+  Future<int> getFinalPrice() async {
+    return _dataSource.getFinalPrice();
   }
 }

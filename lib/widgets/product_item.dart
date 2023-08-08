@@ -1,7 +1,9 @@
+import 'package:apple_shop/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
+import '../bloc/checkout/checkout_bloc.dart';
 import '/bloc/product/product_bloc.dart';
 import '/pages/productdetail_page.dart';
 import '/widgets/cached_image.dart';
@@ -20,8 +22,8 @@ class ProductItem extends StatelessWidget {
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => ProductBloc(),
+            builder: (context) => BlocProvider<CheckoutBloc>.value(
+              value: locator.get<CheckoutBloc>(),
               child: ProductDetailPage(product: product),
             ),
           ),
