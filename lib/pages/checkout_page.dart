@@ -20,172 +20,190 @@ class CheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CheckoutBloc, CheckoutState>(
       builder: (context, state) {
-        return Scaffold(
-          backgroundColor: Kcolor.background,
-          floatingActionButton: (state is CheckoutDataFetchedState &&
-                  state.checkoutFinalPrice > 0)
-              ? FloatingActionButton.extended(
-                  onPressed: () {},
-                  label: const Row(
-                    children: [
-                      Text(
-                        'ادامه فرآیند سفارش',
-                        style: TextStyle(color: Kcolor.white, fontFamily: 'SB'),
-                      ),
-                      SizedBox(width: 4),
-                      Icon(Icons.arrow_forward_rounded, color: Kcolor.white)
-                    ],
-                  ),
-                  backgroundColor: Kcolor.secondary,
-                  splashColor: const Color(0xFF38BD98),
-                )
-              : const SizedBox(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-          body: SafeArea(
-            child: Center(
-              child: CustomScrollView(
-                slivers: [
-                  // AppBar
-                  SliverToBoxAdapter(
-                    child: Container(
-                      height: 42,
-                      margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
-                      decoration: BoxDecoration(
-                        color: Kcolor.white,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Stack(
-                        alignment: Alignment.center,
+        return Stack(
+          children: [
+            Scaffold(
+              backgroundColor: Kcolor.background,
+              floatingActionButton: (state is CheckoutDataFetchedState &&
+                      state.checkoutFinalPrice > 0)
+                  ? FloatingActionButton.extended(
+                      onPressed: () {
+                        context
+                            .read<CheckoutBloc>()
+                            .add(CheckoutPaymentInitEvent());
+                        context
+                            .read<CheckoutBloc>()
+                            .add(CheckoutPaymentRequestEvent());
+                      },
+                      label: const Row(
                         children: [
-                          const Text(
-                            'سبد خرید',
+                          Text(
+                            'ادامه فرآیند سفارش',
                             style: TextStyle(
-                              fontSize: 16,
+                              color: Kcolor.white,
                               fontFamily: 'SB',
-                              color: Kcolor.primery,
                             ),
                           ),
-                          Positioned(
-                            left: 10,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 2),
-                              child: Ksvg(
-                                path: Assets.icons.apple,
-                                size: 28,
-                                color: Kcolor.primery,
-                              ),
-                            ),
-                          ),
+                          SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Kcolor.white,
+                          )
                         ],
                       ),
-                    ),
-                  ),
-
-                  if (state is CheckoutDataFetchedState) ...{
-                    SliverToBoxAdapter(
-                      child: Container(
-                        margin: const EdgeInsets.fromLTRB(32, 0, 32, 20),
-                        padding: const EdgeInsets.all(16),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Kcolor.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Kcolor.grey.withOpacity(0.4),
-                              spreadRadius: -18,
-                              blurRadius: 14,
-                              offset: const Offset(0, 18),
-                            )
-                          ],
-                        ),
-                        child: (state.checkoutFinalPrice == 0)
-                            ? const Row(
-                                children: [
-                                  Icon(
-                                    Icons.priority_high_rounded,
-                                    color: Kcolor.tertiary,
-                                    size: 20,
-                                  ),
-                                  Text(
-                                    ' سبد خرید خالی است.',
-                                    style: TextStyle(
-                                      color: Kcolor.grey,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Row(
-                                children: [
-                                  const Icon(
-                                    Icons.shopping_cart,
-                                    color: Kcolor.primery,
-                                    size: 20,
-                                  ),
-                                  const Text(
-                                    '  مبلغ قابل پرداخت : ',
-                                    style: TextStyle(
-                                      color: Kcolor.grey,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    state.checkoutFinalPrice
-                                        .toString()
-                                        .seRagham(),
-                                    style: const TextStyle(
-                                      color: Kcolor.black,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                  const Text(
-                                    ' تومان',
-                                    style: TextStyle(
-                                      color: Kcolor.black,
-                                      fontSize: 13,
-                                    ),
-                                  )
-                                ],
-                              ),
-                      ),
-                    ),
-                  },
-                  // Product Lists
-                  if (state is CheckoutDataFetchedState) ...{
-                    state.checkoutItemList.fold(
-                      (l) {
-                        return SliverToBoxAdapter(
-                            child: Column(
-                          children: [
-                            Icon(
-                              Icons
-                                  .signal_wifi_statusbar_connected_no_internet_4_sharp,
-                              color: Theme.of(context).colorScheme.error,
-                              size: 32,
-                            ),
-                            const Text('خطا در بارگذاری محتوا'),
-                          ],
-                        ));
-                      },
-                      (checkoutItemList) => SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          childCount: checkoutItemList.length,
-                          (context, index) {
-                            return CardWidget(
-                              checkoutItem: checkoutItemList[index],
-                            );
-                          },
-                        ),
-                      ),
+                      backgroundColor: Kcolor.secondary,
+                      splashColor: const Color(0xFF38BD98),
                     )
-                  },
-                  const SliverPadding(padding: EdgeInsets.only(bottom: 72)),
-                ],
+                  : const SizedBox(),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.startFloat,
+              body: SafeArea(
+                child: Center(
+                  child: CustomScrollView(
+                    slivers: [
+                      // AppBar
+                      SliverToBoxAdapter(
+                        child: Container(
+                          height: 42,
+                          margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
+                          decoration: BoxDecoration(
+                            color: Kcolor.white,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const Text(
+                                'سبد خرید',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'SB',
+                                  color: Kcolor.primery,
+                                ),
+                              ),
+                              Positioned(
+                                left: 10,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 2),
+                                  child: Ksvg(
+                                    path: Assets.icons.apple,
+                                    size: 28,
+                                    color: Kcolor.primery,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      if (state is CheckoutDataFetchedState) ...{
+                        SliverToBoxAdapter(
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(32, 0, 32, 20),
+                            padding: const EdgeInsets.all(16),
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Kcolor.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Kcolor.grey.withOpacity(0.4),
+                                  spreadRadius: -18,
+                                  blurRadius: 14,
+                                  offset: const Offset(0, 18),
+                                )
+                              ],
+                            ),
+                            child: (state.checkoutFinalPrice == 0)
+                                ? const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.priority_high_rounded,
+                                        color: Kcolor.tertiary,
+                                        size: 20,
+                                      ),
+                                      Text(
+                                        ' سبد خرید خالی است.',
+                                        style: TextStyle(
+                                          color: Kcolor.grey,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.shopping_cart,
+                                        color: Kcolor.primery,
+                                        size: 20,
+                                      ),
+                                      const Text(
+                                        '  مبلغ قابل پرداخت : ',
+                                        style: TextStyle(
+                                          color: Kcolor.grey,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        state.checkoutFinalPrice
+                                            .toString()
+                                            .seRagham(),
+                                        style: const TextStyle(
+                                          color: Kcolor.black,
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      const Text(
+                                        ' تومان',
+                                        style: TextStyle(
+                                          color: Kcolor.black,
+                                          fontSize: 13,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                          ),
+                        ),
+                      },
+                      // Product Lists
+                      if (state is CheckoutDataFetchedState) ...{
+                        state.checkoutItemList.fold(
+                          (l) {
+                            return SliverToBoxAdapter(
+                                child: Column(
+                              children: [
+                                Icon(
+                                  Icons
+                                      .signal_wifi_statusbar_connected_no_internet_4_sharp,
+                                  color: Theme.of(context).colorScheme.error,
+                                  size: 32,
+                                ),
+                                const Text('خطا در بارگذاری محتوا'),
+                              ],
+                            ));
+                          },
+                          (checkoutItemList) => SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              childCount: checkoutItemList.length,
+                              (context, index) {
+                                return CardWidget(
+                                  checkoutItem: checkoutItemList[index],
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      },
+                      const SliverPadding(padding: EdgeInsets.only(bottom: 72)),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
@@ -302,7 +320,7 @@ class CardWidget extends StatelessWidget {
                           spacing: 4,
                           runSpacing: 8,
                           children: [
-                            OptionChip(
+                            const OptionChip(
                               title: '100 گیگ',
                               color: 'DF4F3B',
                             ),

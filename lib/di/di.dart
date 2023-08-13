@@ -9,6 +9,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/repository/product_detail_repository.dart';
+import '../utility/payment_handler.dart';
 import '/data/datasource/product_datasource.dart';
 import '/data/repository/product_repository.dart';
 import '/data/datasource/banner_datasource.dart';
@@ -20,6 +21,8 @@ import '/data/repository/authentication_repository.dart';
 
 var locator = GetIt.instance;
 Future<void> getItInit() async {
+  // util
+  locator.registerSingleton<PaymentHandler>(ZarinPalPaymentHandler());
   // components
   locator.registerSingleton<Dio>(
     Dio(
@@ -78,5 +81,8 @@ Future<void> getItInit() async {
   );
 
   // ‌Bloc
-  locator.registerSingleton<CheckoutBloc>(CheckoutBloc());
+  locator.registerSingleton<CheckoutBloc>(CheckoutBloc(
+    locator.get(),
+    locator.get(),
+  ));
 }

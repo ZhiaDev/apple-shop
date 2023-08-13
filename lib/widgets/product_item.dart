@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../bloc/checkout/checkout_bloc.dart';
-import '/bloc/product/product_bloc.dart';
 import '/pages/productdetail_page.dart';
 import '/widgets/cached_image.dart';
 import '/data/model/product.dart';
