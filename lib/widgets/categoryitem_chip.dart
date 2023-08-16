@@ -35,8 +35,8 @@ class CategoryItemChip extends StatelessWidget {
                   BoxShadow(
                     color: category.color.parseToColor(),
                     blurRadius: 42,
-                    spreadRadius: -10,
-                    offset: const Offset(0, 15),
+                    spreadRadius: -12,
+                    offset: const Offset(0, 12),
                   )
                 ],
                 shape: ContinuousRectangleBorder(

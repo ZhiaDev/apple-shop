@@ -14,6 +14,7 @@ import 'pages/profile_page.dart';
 import 'pages/category_page.dart';
 import 'pages/checkout_page.dart';
 import '/bloc/home/home_bloc.dart';
+import '/bloc/home/home_event.dart';
 import '/data/model/checkout_item.dart';
 import '/bloc/category/category_bloc.dart';
 import '/bloc/checkout/checkout_bloc.dart';
@@ -191,7 +192,11 @@ class _MainAppState extends State<MainApp> {
   List<Widget> getPages() {
     return [
       BlocProvider(
-        create: (context) => HomeBloc(),
+        create: (context) {
+          var bloc = HomeBloc();
+          bloc.add(HomeGetInitializeData());
+          return bloc;
+        },
         child: const HomePage(),
       ),
       BlocProvider(

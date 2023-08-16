@@ -13,7 +13,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final IProductRepository _productRepository = locator.get();
 
   HomeBloc() : super(HomeInitState()) {
-    on<HomeGetwInitializedData>((event, emit) async {
+    on<HomeGetInitializeData>((event, emit) async {
       emit(HomeLoadingState());
       var bannerList = await _bannerRepository.getBanners();
       var categoryList = await _categoryRepository.getCategories();

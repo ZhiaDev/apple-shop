@@ -15,19 +15,8 @@ import '../constants/colors.dart';
 import '../gen/assets.gen.dart';
 import '../utility/svg.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    BlocProvider.of<HomeBloc>(context).add(HomeGetwInitializedData());
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,128 +25,80 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
-            return RefreshIndicator(
-              onRefresh: () {
-                return Future.delayed(const Duration(microseconds: 500), () {
-                  BlocProvider.of<HomeBloc>(context)
-                      .add(HomeGetwInitializedData());
-                });
-              },
-              color: Kcolor.primery,
-              child: CustomScrollView(
-                slivers: [
-                  // Banner
-                  if (state is HomeLoadingState) ...{
-                    const HomeShimmerLoading()
-                  } else ...{
-                    // Search Box
-                    const _GetSearchBox(),
-                    if (state is HomeRequestSuccessState) ...[
-                      state.bannerList.fold(
-                        (exceptionMessage) {
-                          return SliverToBoxAdapter(
-                              child: Column(
-                            children: [
-                              Icon(
-                                Icons
-                                    .signal_wifi_statusbar_connected_no_internet_4_sharp,
-                                color: Theme.of(context).colorScheme.error,
-                                size: 32,
-                              ),
-                              const Text('خطا در بارگذاری محتوا'),
-                            ],
-                          ));
-                        },
-                        (bannerList) {
-                          return _GetBanners(campaignBanner: bannerList);
-                        },
-                      )
-                    ],
-
-                    // Category list
-                    if (state is HomeRequestSuccessState) ...[
-                      state.categoryList.fold(
-                        (exceptionMessage) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox(),
-                          );
-                        },
-                        (categoryList) {
-                          return const _GetCategoryTitle();
-                        },
-                      )
-                    ],
-                    if (state is HomeRequestSuccessState) ...[
-                      state.categoryList.fold(
-                        (exceptionMessage) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox(),
-                          );
-                        },
-                        (categoryList) {
-                          return _GetCategoryList(categoryList: categoryList);
-                        },
-                      )
-                    ],
-                    const SliverToBoxAdapter(child: SizedBox(height: 12)),
-
-                    // Best Seller Products
-                    if (state is HomeRequestSuccessState) ...[
-                      state.bestSellerProductList.fold(
-                        (exceptionMessage) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox(),
-                          );
-                        },
-                        (productList) {
-                          return const _GetBestSellerTitle();
-                        },
-                      )
-                    ],
-                    if (state is HomeRequestSuccessState) ...[
-                      state.bestSellerProductList.fold(
-                        (exceptionMessage) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox(),
-                          );
-                        },
-                        (productList) {
-                          return _GetBestSellerList(productList: productList);
-                        },
-                      )
-                    ],
-
-                    // Hotest Products
-                    if (state is HomeRequestSuccessState) ...[
-                      state.hotestProductList.fold(
-                        (exceptionMessage) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox(),
-                          );
-                        },
-                        (productList) {
-                          return const _GetMostViewTitle();
-                        },
-                      )
-                    ],
-                    if (state is HomeRequestSuccessState) ...[
-                      state.hotestProductList.fold(
-                        (exceptionMessage) {
-                          return const SliverToBoxAdapter(
-                            child: SizedBox(),
-                          );
-                        },
-                        (productList) {
-                          return _GetMostViewList(productList: productList);
-                        },
-                      )
-                    ],
-                  },
-                ],
-              ),
-            );
+            return _getHomeScreenContent(state, context);
           },
         ),
+      ),
+    );
+  }
+
+  Widget _getHomeScreenContent(HomeState state, BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        BlocProvider.of<HomeBloc>(context).add(HomeGetInitializeData());
+      },
+      child: CustomScrollView(
+        slivers: [
+          if (state is HomeLoadingState) ...[
+            const HomeShimmerLoading()
+          ] else if (state is HomeRequestSuccessState) ...[
+            // SearchBox
+            const _GetSearchBox(),
+
+            // Banner Slider
+            state.bannerList.fold((exceptionMessage) {
+              return SliverToBoxAdapter(
+                  child: Column(
+                children: [
+                  Icon(
+                    Icons.signal_wifi_statusbar_connected_no_internet_4_sharp,
+                    color: Theme.of(context).colorScheme.error,
+                    size: 32,
+                  ),
+                  const Text('خطا در بارگذاری محتوا'),
+                ],
+              ));
+            }, (listBanners) {
+              return _GetBanners(campaignBanner: listBanners);
+            }),
+
+            // Category list
+            state.categoryList.fold((exceptionMessage) {
+              return const SliverToBoxAdapter(child: SizedBox());
+            }, (categoryList) {
+              return const _GetCategoryTitle();
+            }),
+            state.categoryList.fold((exceptionMessage) {
+              return const SliverToBoxAdapter(child: SizedBox());
+            }, (categoryList) {
+              return _GetCategoryList(categoryList: categoryList);
+            }),
+
+            // BestSeller list
+            state.bestSellerProductList.fold((exceptionMessage) {
+              return const SliverToBoxAdapter(child: SizedBox());
+            }, (productList) {
+              return const _GetBestSellerTitle();
+            }),
+            state.bestSellerProductList.fold((exceptionMessage) {
+              return const SliverToBoxAdapter(child: SizedBox());
+            }, (productList) {
+              return _GetBestSellerList(productList: productList);
+            }),
+
+            // MostView list
+            state.hotestProductList.fold((exceptionMessage) {
+              return const SliverToBoxAdapter(child: SizedBox());
+            }, (productList) {
+              return const _GetMostViewTitle();
+            }),
+            state.hotestProductList.fold((exceptionMessage) {
+              return const SliverToBoxAdapter(child: SizedBox());
+            }, (productList) {
+              return _GetMostViewList(productList: productList);
+            })
+          ],
+        ],
       ),
     );
   }
@@ -170,20 +111,23 @@ class _GetMostViewList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 260,
-        child: ListView.builder(
-          itemCount: productList.length,
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: 32, right: 14),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 18),
-              child: Column(
-                children: [ProductItem(product: productList[index])],
-              ),
-            );
-          },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: SizedBox(
+          height: 260,
+          child: ListView.builder(
+            itemCount: productList.length,
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 32, right: 14),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 18),
+                child: Column(
+                  children: [ProductItem(product: productList[index])],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -197,7 +141,7 @@ class _GetMostViewTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(32, 0, 32, 12),
+        padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
         child: Row(
           children: [
             const Text(
@@ -241,20 +185,23 @@ class _GetBestSellerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 260,
-        child: ListView.builder(
-          itemCount: productList.length,
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.only(left: 32, right: 14),
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 18),
-              child: Column(
-                children: [ProductItem(product: productList[index])],
-              ),
-            );
-          },
+      child: Padding(
+        padding: const EdgeInsets.only(top: 12),
+        child: SizedBox(
+          height: 260,
+          child: ListView.builder(
+            itemCount: productList.length,
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.only(left: 32, right: 14),
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 18),
+                child: Column(
+                  children: [ProductItem(product: productList[index])],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -268,7 +215,7 @@ class _GetBestSellerTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(32, 0, 32, 12),
+        padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
         child: Row(
           children: [
             const Text(
@@ -313,8 +260,10 @@ class _GetCategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 100,
+      child: Container(
+        height: 110,
+        margin: const EdgeInsets.only(top: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
         child: ListView.builder(
           itemCount: categoryList.length,
           padding: const EdgeInsets.only(left: 32, right: 14),
@@ -335,7 +284,7 @@ class _GetCategoryTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return const SliverToBoxAdapter(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(32, 32, 32, 12),
+        padding: EdgeInsets.fromLTRB(32, 28, 32, 0),
         child: Row(
           children: [
             Text(
@@ -360,7 +309,11 @@ class _GetBanners extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(child: BannerSlider(bannerList: campaignBanner));
+    return SliverToBoxAdapter(
+        child: Padding(
+      padding: const EdgeInsets.only(top: 28),
+      child: BannerSlider(bannerList: campaignBanner),
+    ));
   }
 }
 
@@ -372,7 +325,7 @@ class _GetSearchBox extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         height: 42,
-        margin: const EdgeInsets.fromLTRB(42, 4, 42, 32),
+        margin: const EdgeInsets.fromLTRB(42, 8, 42, 0),
         decoration: BoxDecoration(
           color: Kcolor.white,
           borderRadius: BorderRadius.circular(15),
