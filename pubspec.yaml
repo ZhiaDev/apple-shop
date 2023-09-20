@@ -32,6 +32,7 @@ dependencies:
   uni_links: ^0.5.1
   
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   build_runner: ^2.4.6
   hive_generator: ^2.0.0
   flutter_test:
@@ -67,3 +68,10 @@ flutter:
     - family: SB
       fonts:
         - asset: assets/fonts/ShabnamBold.ttf
+
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/appicon.png"
+  min_sdk_android: 21
