@@ -1,7 +1,11 @@
+import 'dart:ui';
+
+import 'package:apple_shop/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../constants/colors.dart';
+import '../pages/productdetail_page.dart';
 
 class HomeShimmerLoading extends StatelessWidget {
   const HomeShimmerLoading({super.key});
@@ -271,6 +275,158 @@ class CategoryShimmerLoading extends StatelessWidget {
                   );
                 },
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class DetailPageShimmerLoading extends StatelessWidget {
+  const DetailPageShimmerLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverFillRemaining(
+      hasScrollBody: false,
+      child: Column(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                // SearchBox
+                Shimmer.fromColors(
+                  baseColor: Kcolor.white,
+                  highlightColor: Kcolor.grey2,
+                  child: Container(
+                    height: 42,
+                    margin: const EdgeInsets.fromLTRB(42, 8, 42, 0),
+                    decoration: BoxDecoration(
+                      color: Kcolor.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+
+                // Title
+                Shimmer.fromColors(
+                  baseColor: Kcolor.white,
+                  highlightColor: Kcolor.grey2,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(64, 28, 64, 0),
+                    child: Container(
+                      height: 18,
+                      decoration: BoxDecoration(
+                        color: Kcolor.white,
+                        borderRadius: BorderRadius.circular(365),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Gallery
+                Shimmer.fromColors(
+                  baseColor: Kcolor.white,
+                  highlightColor: Kcolor.grey2,
+                  child: Container(
+                    height: 284,
+                    margin: const EdgeInsets.fromLTRB(32, 16, 32, 0),
+                    decoration: BoxDecoration(
+                      color: Kcolor.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 80,
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(color: Kcolor.white, width: 1),
+              ),
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 14),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Stack(
+                      alignment: Alignment.topCenter,
+                      clipBehavior: Clip.none,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: const Color(0xFFF7F7F7),
+                          highlightColor: Kcolor.grey2,
+                          child: Container(
+                            width: 140,
+                            height: 47,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 5,
+                          child: Shimmer.fromColors(
+                            baseColor: Kcolor.white,
+                            highlightColor: Kcolor.grey2,
+                            child: Container(
+                              height: 53,
+                              width: 160,
+                              padding: const EdgeInsets.all(4.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Stack(
+                      alignment: Alignment.topCenter,
+                      clipBehavior: Clip.none,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: const Color(0xFFF7F7F7),
+                          highlightColor: Kcolor.grey2,
+                          child: Container(
+                            width: 140,
+                            height: 47,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 5,
+                          child: Shimmer.fromColors(
+                            baseColor: Kcolor.white,
+                            highlightColor: Kcolor.grey2,
+                            child: Container(
+                              height: 53,
+                              width: 160,
+                              padding: const EdgeInsets.all(4.0),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ],
