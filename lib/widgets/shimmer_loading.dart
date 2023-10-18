@@ -1,11 +1,7 @@
-import 'dart:ui';
-
-import 'package:apple_shop/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../constants/colors.dart';
-import '../pages/productdetail_page.dart';
 
 class HomeShimmerLoading extends StatelessWidget {
   const HomeShimmerLoading({super.key});
