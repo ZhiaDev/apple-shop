@@ -9,6 +9,7 @@ abstract class ICheckoutRepository {
       CheckoutItem checkoutItem);
   Future<Either<String, List<CheckoutItem>>> getAllCheckoutItems();
   Future<int> getFinalPrice();
+  Future<void> removeProduct(int index);
 }
 
 class CheckoutRepository extends ICheckoutRepository {
@@ -38,5 +39,10 @@ class CheckoutRepository extends ICheckoutRepository {
   @override
   Future<int> getFinalPrice() async {
     return _dataSource.getFinalPrice();
+  }
+
+  @override
+  Future<void> removeProduct(int index) async {
+    _dataSource.removeProduct(index);
   }
 }

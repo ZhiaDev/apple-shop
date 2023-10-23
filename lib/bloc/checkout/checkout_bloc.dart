@@ -19,11 +19,20 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     });
 
     on<CheckoutPaymentInitEvent>((event, emit) async {
-      _paymentHandler.initPaymentRquest();
+      var finalPrice = await _checkoutRepository.getFinalPrice();
+      _paymentHandler.initPaymentRquest(finalPrice);
     });
 
     on<CheckoutPaymentRequestEvent>((event, emit) async {
       _paymentHandler.sendPaymentRquest();
+    });
+
+    on<CheckoutRemoveProductEvent>((event, emit) async {
+      _checkoutRepository.removeProduct(event.index);
+      var checkoutItemList = await _checkoutRepository.getAllCheckoutItems();
+      var finalPrice = await _checkoutRepository.getFinalPrice();
+
+      emit(CheckoutDataFetchedState(checkoutItemList, finalPrice));
     });
   }
 }

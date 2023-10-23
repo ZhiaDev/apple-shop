@@ -5,7 +5,7 @@ import '/utility/string_extension.dart';
 import '/utility/url_handler.dart';
 
 abstract class PaymentHandler {
-  Future<void> initPaymentRquest();
+  Future<void> initPaymentRquest(int finalPrice);
   Future<void> sendPaymentRquest();
   Future<void> verifyPaymentRquest();
 }
@@ -17,9 +17,9 @@ class ZarinPalPaymentHandler extends PaymentHandler {
   UrlHandler urlHandler = UrlLauncher();
 
   @override
-  Future<void> initPaymentRquest() async {
-    _paymentRequest.setIsSandBox(true);
-    _paymentRequest.setAmount(1000);
+  Future<void> initPaymentRquest(int finalPrice) async {
+    _paymentRequest.setIsSandBox(false);
+    _paymentRequest.setAmount(finalPrice);
     _paymentRequest.setDescription('tozihat bija');
     _paymentRequest.setMerchantID('00eb9bdf-b08c-466c-b2ef-6d5b1702e635');
     _paymentRequest.setCallbackURL('arioapp://appleshop');

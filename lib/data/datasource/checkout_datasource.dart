@@ -5,6 +5,7 @@ abstract class ICheckoutDataSource {
   Future<void> addProduct(CheckoutItem checkoutItem);
   Future<List<CheckoutItem>> getAllCheckoutItems();
   Future<int> getFinalPrice();
+  Future<void> removeProduct(int index);
 }
 
 class CheckoutLocalDataSource extends ICheckoutDataSource {
@@ -27,5 +28,10 @@ class CheckoutLocalDataSource extends ICheckoutDataSource {
         0, (previousValue, element) => previousValue + element.discountPrice!);
 
     return finalPrice;
+  }
+
+  @override
+  Future<void> removeProduct(int index) async {
+    box.deleteAt(index);
   }
 }

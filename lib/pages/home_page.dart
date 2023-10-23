@@ -50,6 +50,7 @@ class HomePage extends StatelessWidget {
               return SliverToBoxAdapter(
                   child: Column(
                 children: [
+                  const SizedBox(height: 32),
                   Icon(
                     Icons.signal_wifi_statusbar_connected_no_internet_4_sharp,
                     color: Theme.of(context).colorScheme.error,

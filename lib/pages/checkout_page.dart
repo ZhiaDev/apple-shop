@@ -191,6 +191,7 @@ class CheckoutPage extends StatelessWidget {
                               (context, index) {
                                 return CardWidget(
                                   checkoutItem: checkoutItemList[index],
+                                  index: index,
                                 );
                               },
                             ),
@@ -212,7 +213,12 @@ class CheckoutPage extends StatelessWidget {
 
 class CardWidget extends StatelessWidget {
   final CheckoutItem checkoutItem;
-  const CardWidget({super.key, required this.checkoutItem});
+  const CardWidget({
+    super.key,
+    required this.checkoutItem,
+    required this.index,
+  });
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -324,33 +330,37 @@ class CardWidget extends StatelessWidget {
                               title: '100 گیگ',
                               color: 'DF4F3B',
                             ),
-                            Container(
-                              height: 28,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: Kcolor.grey.withOpacity(0.6),
-                                ),
-                              ),
-                              padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Ksvg(
-                                    path: Assets.icons.delete,
-                                    size: 16,
-                                    color: Kcolor.tertiary,
+                            GestureDetector(
+                              onTap: () => context.read<CheckoutBloc>().add(
+                                  CheckoutRemoveProductEvent(index: index)),
+                              child: Container(
+                                height: 28,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: Kcolor.grey.withOpacity(0.6),
                                   ),
-                                  const SizedBox(width: 4),
-                                  const Text(
-                                    'حذف',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontFamily: 'SM',
+                                ),
+                                padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Ksvg(
+                                      path: Assets.icons.delete,
+                                      size: 16,
                                       color: Kcolor.tertiary,
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(width: 4),
+                                    const Text(
+                                      'حذف',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontFamily: 'SM',
+                                        color: Kcolor.tertiary,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ],
