@@ -1,15 +1,17 @@
-import 'package:apple_shop/bloc/checkout/checkout_bloc.dart';
-import 'package:apple_shop/data/datasource/category_product_datasource.dart';
-import 'package:apple_shop/data/datasource/checkout_datasource.dart';
-import 'package:apple_shop/data/datasource/product_detail_datasource.dart';
-import 'package:apple_shop/data/repository/category_product_repository.dart';
-import 'package:apple_shop/data/repository/checkout_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data/repository/product_detail_repository.dart';
 import '../utility/payment_handler.dart';
+import '../data/repository/product_detail_repository.dart';
+import '/bloc/checkout/checkout_bloc.dart';
+import '/data/datasource/category_product_datasource.dart';
+import '/data/datasource/checkout_datasource.dart';
+import '/data/datasource/comment_datasource.dart';
+import '/data/datasource/product_detail_datasource.dart';
+import '/data/repository/category_product_repository.dart';
+import '/data/repository/checkout_repository.dart';
+import '/data/repository/comment_repository.dart';
 import '/data/datasource/product_datasource.dart';
 import '/data/repository/product_repository.dart';
 import '/data/datasource/banner_datasource.dart';
@@ -56,6 +58,9 @@ Future<void> getItInit() async {
   locator.registerFactory<ICheckoutDataSource>(
     () => CheckoutLocalDataSource(),
   );
+  locator.registerFactory<ICommentDataSource>(
+    () => CommentRemoteDataSource(),
+  );
 
   // Repositories
   locator.registerFactory<IAuthenticationRepositiry>(
@@ -78,6 +83,9 @@ Future<void> getItInit() async {
   );
   locator.registerFactory<ICheckoutRepository>(
     () => CheckoutRepository(),
+  );
+  locator.registerFactory<ICommentRepository>(
+    () => CommentRepository(),
   );
 
   // ‌Bloc

@@ -1,24 +1,26 @@
 import 'dart:ui';
-import 'package:apple_shop/bloc/checkout/checkout_bloc.dart';
-import 'package:apple_shop/bloc/checkout/checkout_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/product/product_bloc.dart';
+import '../bloc/product/product_state.dart';
+import '../bloc/comment/comment_bloc.dart';
 import '../widgets/shimmer_loading.dart';
+import '../data/model/product.dart';
+import '../data/model/variant.dart';
+import '../gen/assets.gen.dart';
+import '../utility/svg.dart';
+import '/bloc/checkout/checkout_bloc.dart';
+import '/bloc/checkout/checkout_event.dart';
+import '/bloc/product/product_event.dart';
 import '/utility/string_extension.dart';
 import '/data/model/product_image.dart';
 import '/data/model/product_variant.dart';
 import '/data/model/properties.dart';
 import '/data/model/variant_type.dart';
 import '/widgets/cached_image.dart';
-import '/bloc/product/product_event.dart';
-import '../data/model/product.dart';
-import '../data/model/variant.dart';
-import '../bloc/product/product_bloc.dart';
-import '../bloc/product/product_state.dart';
 import '/constants/colors.dart';
-import '../gen/assets.gen.dart';
-import '../utility/svg.dart';
+import '/di/di.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -235,137 +237,220 @@ class ProductDetailContent extends StatelessWidget {
                           ),
                           (right) {
                             return SliverToBoxAdapter(
-                              child: Container(
-                                height: 46,
-                                margin:
-                                    const EdgeInsets.fromLTRB(32, 20, 32, 0),
-                                decoration: BoxDecoration(
-                                  color: Kcolor.white,
-                                  borderRadius: BorderRadius.circular(14),
-                                  border: Border.all(color: Kcolor.grey),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Row(
-                                    children: [
-                                      const Text(
-                                        'نظرات کاربران:',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'SM',
-                                          color: Kcolor.black,
+                              child: GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    isScrollControlled: true,
+                                    isDismissible: true,
+                                    useSafeArea: true,
+                                    showDragHandle: true,
+                                    context: context,
+                                    builder: (context) {
+                                      return BlocProvider(
+                                        create: (context) {
+                                          final bloc =
+                                              CommentBloc(locator.get());
+                                          bloc.add(CommentInitializeEvent(
+                                              productId:
+                                                  parentWidget.product.id!));
+                                          return bloc;
+                                        },
+                                        child: CommentBottomSheet(
+                                          productId: parentWidget.product.id!,
                                         ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Stack(
-                                        clipBehavior: Clip.none,
-                                        children: [
-                                          Container(
-                                            width: 26,
-                                            height: 26,
-                                            decoration: BoxDecoration(
-                                              color: Kcolor.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                width: 1,
-                                                color: Kcolor.white,
-                                              ),
-                                            ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  height: 46,
+                                  margin:
+                                      const EdgeInsets.fromLTRB(32, 20, 32, 0),
+                                  decoration: BoxDecoration(
+                                    color: Kcolor.white,
+                                    borderRadius: BorderRadius.circular(14),
+                                    border: Border.all(color: Kcolor.grey),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Row(
+                                      children: [
+                                        const Text(
+                                          'نظرات کاربران:',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'SM',
+                                            color: Kcolor.black,
                                           ),
-                                          Positioned(
-                                            right: 15,
-                                            child: Container(
-                                              width: 26,
-                                              height: 26,
-                                              decoration: BoxDecoration(
-                                                color: Kcolor.tertiary,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Kcolor.white,
-                                                ),
-                                              ),
-                                            ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        BlocProvider(
+                                          create: (context) {
+                                            final bloc =
+                                                CommentBloc(locator.get());
+                                            bloc.add(CommentInitializeEvent(
+                                                productId:
+                                                    parentWidget.product.id!));
+                                            return bloc;
+                                          },
+                                          child: BlocBuilder<CommentBloc,
+                                              CommentState>(
+                                            builder: (context, state) {
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  if (state
+                                                      is CommentResponse) ...[
+                                                    state.response.fold(
+                                                      (l) => const SizedBox
+                                                          .shrink(),
+                                                      (r) => Container(
+                                                        height: 26,
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 10),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Kcolor.primery
+                                                              .withOpacity(0.8),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                        ),
+                                                        child: Center(
+                                                          child: Text(
+                                                            '${(r.length < 100) ? r.length : '99+'}',
+                                                            style:
+                                                                const TextStyle(
+                                                              color:
+                                                                  Kcolor.white,
+                                                              fontFamily: 'SB',
+                                                              fontSize: 12,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
+                                              );
+                                            },
                                           ),
-                                          Positioned(
-                                            right: 30,
-                                            child: Container(
-                                              width: 26,
-                                              height: 26,
-                                              decoration: BoxDecoration(
-                                                color: Kcolor.primery,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Kcolor.white,
-                                                ),
-                                              ),
-                                            ),
+                                        ),
+                                        // Stack(
+                                        //   clipBehavior: Clip.none,
+                                        //   children: [
+                                        //     Container(
+                                        //       width: 26,
+                                        //       height: 26,
+                                        //       decoration: BoxDecoration(
+                                        //         color: Kcolor.secondary,
+                                        //         borderRadius:
+                                        //             BorderRadius.circular(8),
+                                        //         border: Border.all(
+                                        //           width: 1,
+                                        //           color: Kcolor.white,
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     Positioned(
+                                        //       right: 15,
+                                        //       child: Container(
+                                        //         width: 26,
+                                        //         height: 26,
+                                        //         decoration: BoxDecoration(
+                                        //           color: Kcolor.tertiary,
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(8),
+                                        //           border: Border.all(
+                                        //             width: 1,
+                                        //             color: Kcolor.white,
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     Positioned(
+                                        //       right: 30,
+                                        //       child: Container(
+                                        //         width: 26,
+                                        //         height: 26,
+                                        //         decoration: BoxDecoration(
+                                        //           color: Kcolor.primery,
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(8),
+                                        //           border: Border.all(
+                                        //             width: 1,
+                                        //             color: Kcolor.white,
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     Positioned(
+                                        //       right: 45,
+                                        //       child: Container(
+                                        //         height: 26,
+                                        //         width: 26,
+                                        //         decoration: BoxDecoration(
+                                        //           color: Kcolor.yellow,
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(8),
+                                        //           border: Border.all(
+                                        //             width: 1,
+                                        //             color: Kcolor.white,
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //     Positioned(
+                                        //       right: 60,
+                                        //       child: Container(
+                                        //         height: 26,
+                                        //         width: 26,
+                                        //         decoration: BoxDecoration(
+                                        //           color: Kcolor.grey,
+                                        //           borderRadius:
+                                        //               BorderRadius.circular(8),
+                                        //           border: Border.all(
+                                        //             width: 1,
+                                        //             color: Kcolor.white,
+                                        //           ),
+                                        //         ),
+                                        //         child: const Center(
+                                        //           child: Text(
+                                        //             '99+',
+                                        //             style: TextStyle(
+                                        //               color: Kcolor.white,
+                                        //               fontFamily: 'SB',
+                                        //               fontSize: 10,
+                                        //             ),
+                                        //           ),
+                                        //         ),
+                                        //       ),
+                                        //     ),
+                                        //   ],
+                                        // ),
+                                        const Spacer(),
+                                        const Text(
+                                          'مشاهده',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'SM',
+                                            color: Kcolor.primery,
                                           ),
-                                          Positioned(
-                                            right: 45,
-                                            child: Container(
-                                              height: 26,
-                                              width: 26,
-                                              decoration: BoxDecoration(
-                                                color: Kcolor.yellow,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Kcolor.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Positioned(
-                                            right: 60,
-                                            child: Container(
-                                              height: 26,
-                                              width: 26,
-                                              decoration: BoxDecoration(
-                                                color: Kcolor.grey,
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                                border: Border.all(
-                                                  width: 1,
-                                                  color: Kcolor.white,
-                                                ),
-                                              ),
-                                              child: const Center(
-                                                child: Text(
-                                                  '99+',
-                                                  style: TextStyle(
-                                                    color: Kcolor.white,
-                                                    fontFamily: 'SB',
-                                                    fontSize: 10,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      const Spacer(),
-                                      const Text(
-                                        'مشاهده',
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontFamily: 'SM',
+                                        ),
+                                        const SizedBox(width: 8),
+                                        Ksvg(
+                                          size: 20,
                                           color: Kcolor.primery,
+                                          path: Assets.icons.arrowLeft,
                                         ),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Ksvg(
-                                        size: 20,
-                                        color: Kcolor.primery,
-                                        path: Assets.icons.arrowLeft,
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -407,6 +492,214 @@ class ProductDetailContent extends StatelessWidget {
               ],
             ],
           ),
+        );
+      },
+    );
+  }
+}
+
+class CommentBottomSheet extends StatefulWidget {
+  const CommentBottomSheet({super.key, required this.productId});
+  final String productId;
+
+  @override
+  State<CommentBottomSheet> createState() => _CommentBottomSheetState();
+}
+
+class _CommentBottomSheetState extends State<CommentBottomSheet> {
+  final TextEditingController commentController = TextEditingController();
+  bool isSendButtonEnable = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CommentBloc, CommentState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  BlocProvider.of<CommentBloc>(context)
+                      .add(CommentInitializeEvent(productId: widget.productId));
+                },
+                child: CustomScrollView(
+                  slivers: [
+                    if (state is CommentLoading) ...[
+                      const SliverToBoxAdapter(child: Text('Loading...'))
+                    ],
+                    if (state is CommentResponse) ...[
+                      state.response.fold(
+                        (error) => SliverToBoxAdapter(
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 32),
+                              Icon(
+                                Icons
+                                    .signal_wifi_statusbar_connected_no_internet_4_sharp,
+                                color: Theme.of(context).colorScheme.error,
+                                size: 32,
+                              ),
+                              const Text('خطا در بارگذاری نظرات'),
+                            ],
+                          ),
+                        ),
+                        (commentList) {
+                          if (commentList.isEmpty) {
+                            return const SliverToBoxAdapter(
+                                child: Text('•NO COMMENT•'));
+                          }
+                          return SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 8),
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 2),
+                                  decoration: BoxDecoration(
+                                      color: index.isEven
+                                          ? Kcolor.primery.withOpacity(0.05)
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(12)),
+                                  child: Row(
+                                    children: [
+                                      // user avatar
+                                      CircleAvatar(
+                                          child: commentList[index]
+                                                  .avatarEmptyChecker
+                                                  .isNotEmpty
+                                              ? CachedImage(
+                                                  imageUrl: commentList[index]
+                                                      .userAvatarUrl,
+                                                  radius: 360,
+                                                )
+                                              : const Icon(
+                                                  Icons.person,
+                                                  color: Colors.black87,
+                                                )),
+                                      const SizedBox(width: 8),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.max,
+                                          children: [
+                                            // User name
+                                            Text(
+                                              commentList[index]
+                                                      .userName
+                                                      .isEmpty
+                                                  ? 'کاربر اپل شاپ'
+                                                  : commentList[index].userName,
+                                              style: TextStyle(
+                                                color: Kcolor.black
+                                                    .withOpacity(0.5),
+                                                fontSize: 13,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 2),
+                                            // Comment Text
+                                            Text(
+                                              commentList[index].text.isEmpty
+                                                  ? 'بدون نظر'
+                                                  : commentList[index].text,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                              childCount: commentList.length,
+                            ),
+                          );
+                        },
+                      ),
+                    ]
+
+                    //
+                  ],
+                ),
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Container(
+                  margin: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          const CircleAvatar(
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: TextField(
+                              controller: commentController,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 1,
+                              maxLines: 3,
+                              onChanged: (text) {
+                                setState(() {
+                                  isSendButtonEnable = text.isNotEmpty;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(12),
+                                hintText: 'افزودن نظر...',
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    color: Kcolor.grey,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    color: Kcolor.primery,
+                                    width: 2,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          IconButton(
+                            onPressed: isSendButtonEnable
+                                ? () {
+                                    context.read<CommentBloc>().add(
+                                          CommentPostEvent(
+                                            text: commentController.text,
+                                            productId: widget.productId,
+                                          ),
+                                        );
+                                    setState(() {
+                                      commentController.text = '';
+                                      isSendButtonEnable = false;
+                                    });
+                                  }
+                                : null,
+                            color: Kcolor.primery,
+                            icon: const Icon(
+                              Icons.send_rounded,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
         );
       },
     );
